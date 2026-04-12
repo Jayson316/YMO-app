@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { useAuth } from "@/lib/AuthContext";
-import { Loader2, Lock, Mail, Eye, EyeOff } from "lucide-react";
+import { Loader2, Mail, Lock, Eye, EyeOff, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -13,70 +14,118 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-    try {
-      await login(email, password);
-    } catch {
-      setError("Invalid email or password. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    setLoading(true); setError("");
+    try { await login(email, password); }
+    catch { setError("Invalid credentials. Please try again."); }
+    finally { setLoading(false); }
   };
 
   return (
-    <div className="min-h-screen bg-ymoBlue flex items-center justify-center px-6">
-      <div className="w-full max-w-md">
+    <div style={{
+      minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
+      background: "linear-gradient(160deg, #0A0F1E 0%, #1E2A3A 100%)",
+      padding: "2rem",
+    }}>
+      {/* Back link */}
+      <Link href="/" style={{
+        position: "fixed", top: "1.5rem", left: "1.5rem",
+        display: "flex", alignItems: "center", gap: "0.5rem",
+        color: "rgba(255,255,255,0.4)", textDecoration: "none",
+        fontSize: "0.8rem", fontWeight: 600,
+        textTransform: "uppercase", letterSpacing: "0.1em",
+        transition: "color 0.2s",
+      }}
+      onMouseEnter={e => (e.currentTarget.style.color = "#C9A84C")}
+      onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}>
+        <ArrowLeft size={16} /> Back to Site
+      </Link>
+
+      <div style={{ width: "100%", maxWidth: 420 }}>
         {/* Logo */}
-        <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white font-black text-2xl italic mx-auto mb-4 border border-white/20">Y</div>
-          <h1 className="text-2xl font-black text-white tracking-tight">YMO Admin Portal</h1>
-          <p className="text-blue-400 text-xs uppercase tracking-widest mt-1">Young In Mind Organization</p>
+        <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+          <div style={{
+            width: 56, height: 56,
+            background: "linear-gradient(135deg, #C9A84C, #F0D080)",
+            borderRadius: 14, display: "flex", alignItems: "center",
+            justifyContent: "center", margin: "0 auto 1rem",
+            fontFamily: "Cormorant Garamond, serif", fontWeight: 700,
+            fontSize: "1.8rem", color: "#0A0F1E",
+          }}>Y</div>
+          <h1 style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "1.8rem", fontWeight: 700, color: "#fff" }}>YMO Admin Portal</h1>
+          <p style={{ fontSize: "0.65rem", fontWeight: 700, color: "#C9A84C", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 6 }}>Young In Mind Organization</p>
         </div>
 
-        <div className="bg-white rounded-[2rem] p-10 shadow-2xl">
-          <h2 className="text-xl font-black text-ymoBlue mb-8 text-center uppercase tracking-tight">Sign In</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-3">Email Address</label>
-              <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
-                  type="email" required value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+        {/* Card */}
+        <div style={{
+          background: "rgba(255,255,255,0.04)", backdropFilter: "blur(20px)",
+          border: "1px solid rgba(201,168,76,0.2)", borderRadius: 20,
+          padding: "2.5rem",
+        }}>
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: "1.25rem" }}>
+              <label style={{ display: "block", fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.15em", color: "rgba(255,255,255,0.4)", marginBottom: "0.5rem" }}>Email Address</label>
+              <div style={{ position: "relative" }}>
+                <Mail size={16} style={{ position: "absolute", left: "1rem", top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.3)" }} />
+                <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
                   placeholder="admin@younginmind.org"
-                  className="w-full pl-12 pr-4 py-4 rounded-xl ring-1 ring-gray-200 focus:ring-2 focus:ring-ymoBlue outline-none transition bg-gray-50"
+                  style={{
+                    width: "100%", padding: "0.9rem 1rem 0.9rem 2.75rem",
+                    background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: 10, color: "#fff", fontSize: "0.9rem", outline: "none",
+                    fontFamily: "DM Sans, sans-serif",
+                  }}
+                  onFocus={e => e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)"}
+                  onBlur={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
                 />
               </div>
             </div>
-            <div>
-              <label className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-3">Password</label>
-              <div className="relative">
-                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
-                  type={showPass ? "text" : "password"} required value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+            <div style={{ marginBottom: "1.5rem" }}>
+              <label style={{ display: "block", fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.15em", color: "rgba(255,255,255,0.4)", marginBottom: "0.5rem" }}>Password</label>
+              <div style={{ position: "relative" }}>
+                <Lock size={16} style={{ position: "absolute", left: "1rem", top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.3)" }} />
+                <input type={showPass ? "text" : "password"} required value={password} onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-12 pr-12 py-4 rounded-xl ring-1 ring-gray-200 focus:ring-2 focus:ring-ymoBlue outline-none transition bg-gray-50"
+                  style={{
+                    width: "100%", padding: "0.9rem 2.75rem 0.9rem 2.75rem",
+                    background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: 10, color: "#fff", fontSize: "0.9rem", outline: "none",
+                    fontFamily: "DM Sans, sans-serif",
+                  }}
+                  onFocus={e => e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)"}
+                  onBlur={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
                 />
-                <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-                  {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                <button type="button" onClick={() => setShowPass(!showPass)} style={{
+                  position: "absolute", right: "1rem", top: "50%", transform: "translateY(-50%)",
+                  background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.3)",
+                }}>
+                  {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
             </div>
-            {error && <div className="bg-red-50 text-red-600 text-sm font-bold p-4 rounded-xl">{error}</div>}
-            <button disabled={loading} className="w-full bg-ymoBlue text-white py-4 rounded-xl font-black uppercase tracking-widest hover:bg-black transition disabled:opacity-50 flex items-center justify-center gap-3">
-              {loading ? <><Loader2 size={18} className="animate-spin" /> Signing In...</> : "Sign In"}
+            {error && (
+              <div style={{
+                background: "rgba(220,38,38,0.1)", border: "1px solid rgba(220,38,38,0.3)",
+                borderRadius: 10, padding: "0.75rem 1rem",
+                color: "#f87171", fontSize: "0.85rem", marginBottom: "1rem",
+              }}>{error}</div>
+            )}
+            <button disabled={loading} style={{
+              width: "100%",
+              background: loading ? "rgba(201,168,76,0.4)" : "linear-gradient(135deg, #C9A84C, #F0D080)",
+              color: "#0A0F1E", border: "none", padding: "1rem",
+              borderRadius: 10, fontWeight: 700, fontSize: "0.85rem",
+              textTransform: "uppercase", letterSpacing: "0.1em",
+              cursor: loading ? "not-allowed" : "pointer",
+              fontFamily: "DM Sans, sans-serif",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem",
+            }}>
+              {loading ? <><Loader2 size={16} className="animate-spin" /> Signing In...</> : "Sign In to Dashboard"}
             </button>
           </form>
-          <p className="text-center text-xs text-gray-400 mt-8">
+          <p style={{ textAlign: "center", fontSize: "0.75rem", color: "rgba(255,255,255,0.25)", marginTop: "1.5rem" }}>
             Access restricted to authorized YMO administrators only.
           </p>
         </div>
-
-        <p className="text-center mt-6">
-          <a href="/" className="text-blue-400 text-xs font-bold hover:text-white transition">← Back to YMO Website</a>
-        </p>
       </div>
     </div>
   );

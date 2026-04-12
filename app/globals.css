@@ -2,5 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-* { box-sizing: border-box; }
-body { font-family: 'Segoe UI', system-ui, sans-serif; }
+:root {
+  --green: #40916C;
+  --green-dark: #2D6A4F;
+  --green-light: #74C69D;
+  --green-pale: #D8F3DC;
+  --green-bg: #F0FAF4;
+  --white: #FFFFFF;
+  --text: #1a1a2e;
+  --text-muted: #6b7280;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  background: #fff;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+}

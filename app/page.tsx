@@ -1,121 +1,160 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import PublicReferralForm from "@/components/public/PublicReferralForm";
-import { BookOpen, Heart, ShieldCheck, ArrowRight, Users, Target, Clock, Award } from "lucide-react";
+import { Menu, X, ArrowRight, Shield, BookOpen, Heart, ChevronDown } from "lucide-react";
+import ReferralForm from "@/components/public/ReferralForm";
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const G = "#40916C", GD = "#2D6A4F", GL = "#74C69D", GP = "#D8F3DC", BG = "#F0FAF4";
+
   return (
-    <main className="min-h-screen bg-white">
+    <main style={{ background: "#fff", color: "#1a1a2e" }}>
+
       {/* NAV */}
-      <nav className="sticky top-0 bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-ymoBlue rounded-xl flex items-center justify-center text-white font-black text-lg italic shadow-lg">Y</div>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(64,145,108,0.15)", boxShadow: scrolled ? "0 4px 20px rgba(0,0,0,0.07)" : "none", transition: "box-shadow .3s", padding: "0 1.5rem" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", height: 68, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+            <div style={{ width: 38, height: 38, background: G, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Playfair Display,serif", fontWeight: 900, fontSize: "1.1rem", color: "#fff", fontStyle: "italic" }}>Y</div>
             <div>
-              <span className="text-lg font-black text-ymoBlue tracking-tighter">YOUNG IN MIND</span>
-              <p className="text-[9px] font-bold text-blue-600 tracking-[0.3em] uppercase -mt-1">Organization</p>
+              <div style={{ fontFamily: "Playfair Display,serif", fontWeight: 700, fontSize: "1rem", color: "#1a1a2e", lineHeight: 1 }}>YOUNG IN MIND</div>
+              <div style={{ fontSize: "0.55rem", fontWeight: 700, color: G, letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 2 }}>Organization</div>
             </div>
           </div>
-          <div className="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-gray-500">
-            <a href="#about" className="hover:text-ymoBlue transition">About</a>
-            <a href="#pillars" className="hover:text-ymoBlue transition">Our Pillars</a>
-            <a href="#process" className="hover:text-ymoBlue transition">Our Process</a>
-            <a href="#refer" className="hover:text-ymoBlue transition">Refer a Child</a>
+          <div className="hidden md:flex" style={{ alignItems: "center", gap: "0.25rem" }}>
+            {[["#about","Mission"],["#pillars","Our Pillars"],["#process","Process"],["#refer","Refer a Child"]].map(([h,l]) => (
+              <a key={h} href={h} style={{ fontSize: "0.78rem", fontWeight: 600, color: "#6b7280", textDecoration: "none", padding: "0.5rem 0.875rem", borderRadius: 8, transition: "all .2s" }} onMouseEnter={e=>{(e.currentTarget as any).style.color=G;(e.currentTarget as any).style.background=BG;}} onMouseLeave={e=>{(e.currentTarget as any).style.color="#6b7280";(e.currentTarget as any).style.background="transparent";}}>{l}</a>
+            ))}
           </div>
-          <div className="flex items-center gap-3">
-            <Link href="/admin/login" className="text-xs font-bold text-gray-400 hover:text-ymoBlue transition uppercase tracking-widest">Admin</Link>
-            <button className="bg-ymoBlue text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-black transition shadow-lg">Donate</button>
+          <div className="hidden md:flex" style={{ alignItems: "center", gap: "0.75rem" }}>
+            <Link href="/admin/login" style={{ fontSize: "0.75rem", fontWeight: 700, color: "#6b7280", textDecoration: "none", padding: "0.5rem 1rem", border: "1px solid #e5e7eb", borderRadius: 8 }}>Admin</Link>
+            <button style={{ background: G, color: "#fff", border: "none", padding: "0.6rem 1.4rem", borderRadius: 100, fontWeight: 700, fontSize: "0.78rem", cursor: "pointer", fontFamily: "inherit" }}>Donate</button>
           </div>
+          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden" style={{ background: "none", border: "none", cursor: "pointer", color: "#1a1a2e", padding: "0.25rem" }}>
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+        {menuOpen && (
+          <div style={{ background: "#fff", borderTop: `1px solid ${BG}`, padding: "1rem 1.5rem 1.5rem" }}>
+            {[["#about","Mission"],["#pillars","Our Pillars"],["#process","Process"],["#refer","Refer a Child"]].map(([h,l]) => (
+              <a key={h} href={h} onClick={()=>setMenuOpen(false)} style={{ display: "block", padding: "0.75rem 0", fontSize: "1rem", fontWeight: 600, color: "#1a1a2e", textDecoration: "none", borderBottom: "1px solid #f3f4f6" }}>{l}</a>
+            ))}
+            <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem" }}>
+              <Link href="/admin/login" onClick={()=>setMenuOpen(false)} style={{ flex: 1, textAlign: "center", padding: "0.75rem", border: "1px solid #e5e7eb", borderRadius: 10, fontWeight: 700, fontSize: "0.85rem", color: "#6b7280", textDecoration: "none" }}>Admin</Link>
+              <button style={{ flex: 1, background: G, color: "#fff", border: "none", padding: "0.75rem", borderRadius: 10, fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", fontFamily: "inherit" }}>Donate</button>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* HERO */}
-      <section className="relative py-28 px-6 overflow-hidden bg-ymoLight">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <div className="z-10">
-            <span className="inline-block bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-6">Faith · Education · Character</span>
-            <h1 className="text-6xl md:text-7xl font-extrabold text-ymoBlue leading-[1.05] mb-8 tracking-tight">
-              Transforming <span className="text-blue-700">Potentials</span> into Leaders for Christ.
-            </h1>
-            <p className="text-xl text-gray-600 leading-relaxed mb-10 max-w-lg">
-              YMO identifies children overlooked by traditional support systems and transforms them into responsible members of society and committed Christians.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#refer" className="inline-flex items-center gap-3 bg-ymoBlue text-white px-10 py-5 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-xl">
-                Refer a Child <ArrowRight size={20} />
-              </a>
-              <a href="#about" className="inline-flex items-center gap-3 border-2 border-ymoBlue text-ymoBlue px-10 py-5 rounded-2xl font-bold text-lg hover:bg-ymoBlue hover:text-white transition-all">
-                Learn More
-              </a>
-            </div>
+      <section style={{ minHeight: "92vh", marginTop: 68, position: "relative", overflow: "hidden", display: "flex", alignItems: "center" }}>
+        <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(rgba(0,0,0,0.52),rgba(0,0,0,0.45)),url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=80')`, backgroundSize: "cover", backgroundPosition: "center" }} />
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "4rem 1.5rem", position: "relative", zIndex: 1, width: "100%" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "rgba(64,145,108,0.85)", backdropFilter: "blur(8px)", borderRadius: 100, padding: "0.4rem 1rem", marginBottom: "1.5rem" }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: GL }} />
+            <span style={{ fontSize: "0.65rem", fontWeight: 700, color: "#fff", letterSpacing: "0.2em", textTransform: "uppercase" }}>Faith · Education · Character</span>
           </div>
-          <div className="relative">
-            <div className="absolute -inset-4 bg-ymoGold/20 rounded-[3rem] blur-2xl"></div>
-            <img
-              src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80"
-              className="rounded-[3rem] relative z-10 shadow-2xl border-8 border-white object-cover h-[480px] w-full"
-              alt="YMO Outreach"
-            />
+          <h1 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(2.8rem,7vw,5.5rem)", fontWeight: 900, color: "#fff", lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: "1.25rem" }}>
+            Transforming Lives<br />Through <em style={{ color: GL }}>Faith &amp; Support</em>
+          </h1>
+          <p style={{ fontSize: "clamp(1rem,2vw,1.15rem)", color: "rgba(255,255,255,0.82)", lineHeight: 1.8, maxWidth: 540, marginBottom: "2rem" }}>
+            Supporting vulnerable children through education, care, and Christian values — giving them the foundation to become responsible leaders in society.
+          </p>
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <a href="#refer" style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", background: "#fff", color: GD, padding: "0.9rem 1.75rem", borderRadius: 10, fontWeight: 800, fontSize: "0.9rem", textDecoration: "none", boxShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>
+              Refer a Child <ArrowRight size={16} />
+            </a>
+            <a href="#about" style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", padding: "0.9rem 1.75rem", borderRadius: 10, fontWeight: 700, fontSize: "0.9rem", textDecoration: "none" }}>
+              Learn More
+            </a>
           </div>
+        </div>
+        <div style={{ position: "absolute", bottom: "2rem", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.35rem", color: "rgba(255,255,255,0.4)" }}>
+          <span style={{ fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase" }}>Scroll</span>
+          <ChevronDown size={16} />
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="py-16 bg-ymoBlue text-white">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          {[
-            { icon: <Users size={28} />, value: "150+", label: "Children Reached" },
-            { icon: <Target size={28} />, value: "12", label: "Communities" },
-            { icon: <Award size={28} />, value: "100%", label: "Commitment" },
-            { icon: <Clock size={28} />, value: "24/7", label: "Mentorship" },
-          ].map((s) => (
-            <div key={s.label}>
-              <div className="flex justify-center mb-3 text-ymoGold">{s.icon}</div>
-              <p className="text-5xl font-black tracking-tighter mb-1">{s.value}</p>
-              <p className="text-blue-400 text-[10px] font-black uppercase tracking-[0.2em]">{s.label}</p>
-            </div>
-          ))}
+      {/* WHO WE ARE */}
+      <section id="about" style={{ background: "#fff", padding: "2.5rem 1.5rem", borderBottom: `2px solid ${GP}` }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <p style={{ fontSize: "1rem", lineHeight: 1.8, color: "#6b7280" }}>
+            <strong style={{ color: "#1a1a2e" }}>Who We Are:</strong> YMO is a Christian organization dedicated to improving the lives of children through education, support, and faith-driven initiatives. We identify children who have been overlooked by traditional support systems and walk alongside them on their journey to becoming committed Christians and responsible citizens.
+          </p>
         </div>
       </section>
 
       {/* PILLARS */}
-      <section id="pillars" className="py-32 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl font-black text-ymoBlue uppercase tracking-tight mb-4">Our Three-Fold Commitment</h2>
-            <p className="text-gray-500 text-lg max-w-2xl mx-auto">Focusing on the three areas critical to a child's success in this life and the next.</p>
+      <section id="pillars" style={{ background: BG, padding: "5rem 1.5rem" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <div style={{ fontSize: "0.7rem", fontWeight: 700, color: G, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Our Foundation</div>
+            <h2 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 700, color: "#1a1a2e", marginBottom: "0.75rem" }}>Our Three-Fold Commitment</h2>
+            <div style={{ width: 50, height: 3, background: G, borderRadius: 2, margin: "0 auto 1rem" }} />
+            <p style={{ color: "#6b7280", maxWidth: 500, margin: "0 auto", lineHeight: 1.7 }}>Focusing on the areas critical to a child's success in this life and the next.</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-10">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "1.5rem" }}>
             {[
-              { icon: <ShieldCheck size={40} />, title: "Christian Life", desc: "Nurturing a deep, committed relationship with God through scriptural literacy, prayer, and discipleship.", featured: false },
-              { icon: <BookOpen size={40} />, title: "Education", desc: "Bridging academic gaps by providing resources, tutoring, and support for children in underserved areas.", featured: true },
-              { icon: <Heart size={40} />, title: "Personal Life", desc: "Character building and life skills training to develop responsible, ethical, and high-functioning citizens.", featured: false },
-            ].map((p) => (
-              <div key={p.title} className={`p-10 rounded-[2.5rem] border transition-all hover:-translate-y-2 hover:shadow-2xl ${p.featured ? "bg-ymoBlue text-white border-transparent shadow-2xl" : "bg-gray-50 border-gray-100 hover:bg-white"}`}>
-                <div className={`mb-6 ${p.featured ? "text-ymoGold" : "text-blue-600"}`}>{p.icon}</div>
-                <h3 className={`text-2xl font-bold mb-4 ${p.featured ? "text-white" : "text-ymoBlue"}`}>{p.title}</h3>
-                <p className={p.featured ? "text-blue-200" : "text-gray-600"}>{p.desc}</p>
+              { icon: <Shield size={26}/>, title: "Christian Life", desc: "Nurturing a deep, committed relationship with God through scriptural literacy, prayer, and discipleship.", num: "01", featured: false },
+              { icon: <BookOpen size={26}/>, title: "Education", desc: "Bridging academic gaps by providing resources, tutoring, and structured support for children in underserved communities.", num: "02", featured: true },
+              { icon: <Heart size={26}/>, title: "Personal Life", desc: "Character building and life skills training to develop responsible, ethical, and high-functioning citizens.", num: "03", featured: false },
+            ].map(p => (
+              <div key={p.title} style={{ background: p.featured ? GD : "#fff", borderRadius: 18, padding: "2.5rem", border: p.featured ? "none" : `1px solid rgba(64,145,108,0.12)`, position: "relative", overflow: "hidden", boxShadow: p.featured ? `0 20px 50px rgba(45,106,79,0.25)` : "none", transition: "all .3s" }}
+                onMouseEnter={e=>{if(!p.featured){(e.currentTarget as any).style.transform="translateY(-6px)";(e.currentTarget as any).style.boxShadow="0 20px 50px rgba(64,145,108,0.15)";}}}
+                onMouseLeave={e=>{if(!p.featured){(e.currentTarget as any).style.transform="translateY(0)";(e.currentTarget as any).style.boxShadow="none";}}}>
+                <div style={{ position: "absolute", bottom: "1rem", right: "1.5rem", fontFamily: "Playfair Display,serif", fontSize: "4rem", fontWeight: 900, color: p.featured ? "rgba(255,255,255,0.06)" : "rgba(64,145,108,0.06)", lineHeight: 1, pointerEvents: "none" }}>{p.num}</div>
+                <div style={{ width: 56, height: 56, background: p.featured ? "rgba(255,255,255,0.15)" : GP, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.25rem", color: p.featured ? "#fff" : G }}>{p.icon}</div>
+                <h3 style={{ fontFamily: "Playfair Display,serif", fontSize: "1.4rem", fontWeight: 700, color: p.featured ? "#fff" : "#1a1a2e", marginBottom: "0.75rem" }}>{p.title}</h3>
+                <div style={{ width: 30, height: 2, background: p.featured ? GL : G, marginBottom: "1rem" }} />
+                <p style={{ color: p.featured ? "rgba(255,255,255,0.7)" : "#6b7280", lineHeight: 1.7, fontSize: "0.92rem" }}>{p.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* IMPACT */}
+      <section style={{ background: "#fff", padding: "5rem 1.5rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <div style={{ fontSize: "0.7rem", fontWeight: 700, color: G, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Numbers That Matter</div>
+          <h2 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 700, color: "#1a1a2e", marginBottom: "0.75rem" }}>Our Impact</h2>
+          <div style={{ width: 50, height: 3, background: G, borderRadius: 2, margin: "0 auto" }} />
+        </div>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))" }}>
+          {[{value:"200+",label:"Children Helped"},{value:"15",label:"Communities Reached"},{value:"100+",label:"Sponsors"},{value:"24/7",label:"Mentorship"}].map((s,i) => (
+            <div key={s.label} style={{ textAlign: "center", padding: "2.5rem 1.5rem", borderRight: i<3 ? `1px solid ${BG}` : "none" }}>
+              <div style={{ fontFamily: "Playfair Display,serif", fontSize: "3.5rem", fontWeight: 900, color: G, lineHeight: 1, marginBottom: "0.5rem" }}>{s.value}</div>
+              <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.1em" }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* PROCESS */}
-      <section id="process" className="py-24 px-6 bg-ymoLight">
-        <div className="max-w-7xl mx-auto">
-          <h3 className="text-center text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 mb-16">Our Intervention Process</h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { step: "01", title: "Referral", desc: "Community identifies a child in need and submits a referral." },
-              { step: "02", title: "Assessment", desc: "YMO team evaluates the child's spiritual & academic needs." },
-              { step: "03", title: "Integration", desc: "Child enters our 3-pillar mentorship program." },
-              { step: "04", title: "Impact", desc: "Child emerges as a responsible Christian leader." },
-            ].map((s) => (
-              <div key={s.step} className="text-center p-8 bg-white rounded-3xl shadow-sm border border-gray-100 hover:shadow-lg transition-all">
-                <p className="text-5xl font-black text-blue-100 mb-4">{s.step}</p>
-                <p className="font-bold text-ymoBlue mb-2 uppercase tracking-widest text-xs">{s.title}</p>
-                <p className="text-xs text-gray-500 leading-relaxed">{s.desc}</p>
+      <section id="process" style={{ background: BG, padding: "5rem 1.5rem" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <div style={{ fontSize: "0.7rem", fontWeight: 700, color: G, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>How It Works</div>
+            <h2 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 700, color: "#1a1a2e" }}>Our Intervention Process</h2>
+            <div style={{ width: 50, height: 3, background: G, borderRadius: 2, margin: "1rem auto 0" }} />
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: "1.25rem" }}>
+            {[{step:"01",title:"Referral",desc:"Community identifies a child in need and submits a confidential referral."},{step:"02",title:"Assessment",desc:"YMO team evaluates the child's spiritual, academic, and personal needs."},{step:"03",title:"Integration",desc:"Child is enrolled into our 3-pillar mentorship program."},{step:"04",title:"Transformation",desc:"Child emerges as a committed Christian leader and responsible citizen."}].map(s => (
+              <div key={s.step} style={{ background: "#fff", borderRadius: 16, padding: "2rem", border: `1px solid rgba(64,145,108,0.1)`, transition: "all .3s" }}
+                onMouseEnter={e=>{(e.currentTarget as any).style.transform="translateY(-4px)";(e.currentTarget as any).style.boxShadow="0 12px 35px rgba(64,145,108,0.12)";}}
+                onMouseLeave={e=>{(e.currentTarget as any).style.transform="translateY(0)";(e.currentTarget as any).style.boxShadow="none";}}>
+                <div style={{ width: 40, height: 40, background: GP, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "0.9rem", color: G, marginBottom: "1rem" }}>{s.step}</div>
+                <h4 style={{ fontFamily: "Playfair Display,serif", fontSize: "1.1rem", fontWeight: 700, color: "#1a1a2e", marginBottom: "0.5rem" }}>{s.title}</h4>
+                <p style={{ fontSize: "0.85rem", color: "#6b7280", lineHeight: 1.6 }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -123,55 +162,65 @@ export default function Home() {
       </section>
 
       {/* DIRECTOR */}
-      <section id="about" className="py-24 bg-ymoBlue text-white px-6">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
-          <div>
-            <h2 className="text-4xl font-bold mb-8">A Message from our Director</h2>
-            <blockquote className="text-2xl text-blue-100 italic font-light leading-relaxed mb-10">
-              "We don't wait for children to find us. We go to them. At Young In Mind, we are committed to finding the overlooked and giving them a future anchored in Christ and excellence."
-            </blockquote>
-            <div>
-              <h4 className="text-2xl font-bold text-ymoGold">Miss Edinia Ashitey</h4>
-              <p className="text-blue-300 uppercase tracking-widest text-xs font-bold">Executive Director & Founder</p>
+      <section style={{ background: "#fff", padding: "5rem 1.5rem" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "4rem", alignItems: "center" }}>
+          <div style={{ width: "100%", aspectRatio: "1", background: `linear-gradient(135deg,${GP},${GL})`, borderRadius: 24, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Playfair Display,serif", fontSize: "5rem", fontWeight: 700, color: GD, position: "relative", overflow: "hidden" }}>
+            EA
+            <div style={{ position: "absolute", bottom: "1.5rem", right: "1.5rem", background: "#fff", padding: "1rem 1.25rem", borderRadius: 14, boxShadow: "0 8px 25px rgba(0,0,0,0.1)", textAlign: "center" }}>
+              <div style={{ fontFamily: "Playfair Display,serif", fontSize: "1.8rem", fontWeight: 700, color: G }}>2024</div>
+              <div style={{ fontSize: "0.6rem", fontWeight: 700, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.1em" }}>Founded</div>
             </div>
           </div>
-          <div className="bg-white/10 p-12 rounded-[3rem] backdrop-blur-xl border border-white/10 space-y-6">
-            <h3 className="text-2xl font-bold">Board of Directors</h3>
-            <div className="flex items-center gap-3 text-lg">
-              <div className="w-2 h-2 bg-ymoGold rounded-full"></div>
-              Miss Edinia Ashitey — Founder & Executive Director
-            </div>
-            <p className="text-white/40 italic text-sm">Additional Board Members to be announced...</p>
-            <div className="pt-6 border-t border-white/10 space-y-3">
-              <div className="flex items-center gap-3 text-sm text-blue-200">
-                <ShieldCheck size={16} className="text-ymoGold" /> Board-Led Accountability
+          <div>
+            <div style={{ fontSize: "0.7rem", fontWeight: 700, color: G, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Leadership</div>
+            <h2 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.8rem,4vw,2.5rem)", fontWeight: 700, color: "#1a1a2e", marginBottom: "1.5rem" }}>Governance &amp; Vision</h2>
+            <blockquote style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.1rem,2vw,1.35rem)", fontStyle: "italic", color: "#1a1a2e", lineHeight: 1.75, marginBottom: "1.75rem", borderLeft: `4px solid ${G}`, paddingLeft: "1.5rem" }}>
+              "We don't wait for children to find us. We go to them. At Young In Mind, we are committed to finding the overlooked and giving them a future anchored in Christ and Excellence."
+            </blockquote>
+            <div style={{ fontSize: "1.1rem", fontWeight: 700, color: GD }}>Miss Edinia Ashitey</div>
+            <div style={{ fontSize: "0.7rem", fontWeight: 600, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.15em", marginTop: 3 }}>Founder & Executive Director</div>
+            <div style={{ background: BG, borderRadius: 18, padding: "1.5rem", border: `1px solid rgba(64,145,108,0.15)`, marginTop: "1.5rem" }}>
+              <h4 style={{ fontSize: "0.8rem", fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: "#6b7280", marginBottom: "1rem" }}>Board of Directors</h4>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem 0", borderBottom: `1px solid rgba(64,145,108,0.1)` }}>
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: G, flexShrink: 0 }} />
+                <span style={{ fontWeight: 600, color: "#1a1a2e", fontSize: "0.9rem" }}>Miss Edinia Ashitey — Founder & Executive Director</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-blue-200">
-                <Heart size={16} className="text-ymoGold" /> Child Protection First
-              </div>
+              <p style={{ color: "#6b7280", fontSize: "0.85rem", fontStyle: "italic", paddingTop: "0.75rem" }}>Additional Board Members to be announced...</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* REFERRAL FORM */}
-      <section id="refer">
-        <PublicReferralForm />
+      {/* CTA BANNER */}
+      <section style={{ background: GD, padding: "4rem 1.5rem", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "-50%", left: "-10%", width: 400, height: 400, borderRadius: "50%", background: "rgba(116,198,157,0.1)", pointerEvents: "none" }} />
+        <h2 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 700, color: "#fff", marginBottom: "1rem", position: "relative", zIndex: 1 }}>Be the reason a child smiles today</h2>
+        <p style={{ color: "rgba(255,255,255,0.75)", maxWidth: 450, margin: "0 auto 2rem", lineHeight: 1.7, position: "relative", zIndex: 1 }}>Your support helps us reach more children with the spiritual, educational, and personal guidance they deserve.</p>
+        <button style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", background: "#fff", color: GD, padding: "1rem 2.5rem", borderRadius: 100, fontWeight: 800, fontSize: "0.95rem", border: "none", cursor: "pointer", fontFamily: "inherit", boxShadow: "0 4px 20px rgba(0,0,0,0.2)", position: "relative", zIndex: 1 }}>
+          Donate Now ❤️
+        </button>
       </section>
+
+      {/* FORM */}
+      <section id="refer"><ReferralForm /></section>
 
       {/* FOOTER */}
-      <footer className="bg-gray-50 py-16 px-6 text-center border-t border-gray-100">
-        <div className="flex items-center justify-center gap-3 mb-6">
-          <div className="w-8 h-8 bg-ymoBlue rounded-lg flex items-center justify-center text-white font-black text-sm italic">Y</div>
-          <span className="font-black text-ymoBlue tracking-tighter">YOUNG IN MIND ORGANIZATION</span>
+      <footer style={{ background: "#0f1f17", padding: "3.5rem 1.5rem", borderTop: "1px solid rgba(64,145,108,0.2)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem", textAlign: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <div style={{ width: 36, height: 36, background: G, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Playfair Display,serif", fontWeight: 900, color: "#fff", fontStyle: "italic" }}>Y</div>
+            <span style={{ fontFamily: "Playfair Display,serif", fontWeight: 700, color: "#fff", fontSize: "1rem" }}>YOUNG IN MIND ORGANIZATION</span>
+          </div>
+          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.85rem", maxWidth: 420, lineHeight: 1.7 }}>Dedicated to finding the overlooked and raising them as committed Christians and responsible citizens.</p>
+          <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", justifyContent: "center" }}>
+            {["Privacy Policy","Governance","Contact"].map(item => (
+              <a key={item} href="#" style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.72rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", textDecoration: "none" }}>{item}</a>
+            ))}
+            <Link href="/admin/login" style={{ color: GL, fontSize: "0.72rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", textDecoration: "none" }}>Admin</Link>
+          </div>
+          <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.07)" }} />
+          <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "0.72rem", letterSpacing: "0.08em" }}>&copy; 2024 YMO Organization. All Rights Reserved.</p>
         </div>
-        <p className="text-gray-400 text-sm max-w-md mx-auto mb-8">A professional NGO dedicated to finding the overlooked and raising them as committed Christians and responsible citizens.</p>
-        <div className="flex justify-center gap-8 text-gray-300 text-xs font-bold uppercase tracking-widest mb-8">
-          <a href="#" className="hover:text-blue-600 transition">Privacy Policy</a>
-          <a href="#" className="hover:text-blue-600 transition">Governance</a>
-          <Link href="/admin/login" className="hover:text-blue-600 transition">Admin Portal</Link>
-        </div>
-        <p className="text-xs text-gray-300 uppercase tracking-widest">&copy; 2024 Young In Mind Organization. All Rights Reserved.</p>
       </footer>
     </main>
   );

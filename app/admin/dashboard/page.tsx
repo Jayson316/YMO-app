@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { getReferrals, getChildren, getReports } from "@/lib/db";
 import type { Referral, Child, Report } from "@/types";
 import Link from "next/link";
-import { Users, FileText, BarChart3, Clock, TrendingUp, ArrowRight, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import { useAuth } from "@/lib/AuthContext";
+import { FileText, Users, BarChart3, Clock, ArrowRight, CheckCircle, XCircle, AlertCircle, Loader2 } from "lucide-react";
 
 export default function DashboardPage() {
+  const { user } = useAuth();
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [children, setChildren] = useState<Child[]>([]);
   const [reports, setReports] = useState<Report[]>([]);
@@ -18,125 +20,158 @@ export default function DashboardPage() {
   }, []);
 
   const pending = referrals.filter(r => r.status === "pending").length;
-  const approved = referrals.filter(r => r.status === "approved").length;
   const active = children.filter(c => c.status === "active").length;
 
   const stats = [
-    { label: "Total Referrals", value: referrals.length, icon: <FileText size={22} />, color: "bg-blue-50 text-blue-600", href: "/admin/referrals" },
-    { label: "Pending Review", value: pending, icon: <Clock size={22} />, color: "bg-yellow-50 text-yellow-600", href: "/admin/referrals" },
-    { label: "Active Children", value: active, icon: <Users size={22} />, color: "bg-green-50 text-green-600", href: "/admin/children" },
-    { label: "Progress Reports", value: reports.length, icon: <BarChart3 size={22} />, color: "bg-purple-50 text-purple-600", href: "/admin/reports" },
+    { label: "Total Referrals", value: referrals.length, icon: <FileText size={20} />, color: "#3b82f6", bg: "#eff6ff", href: "/admin/referrals" },
+    { label: "Pending Review", value: pending, icon: <Clock size={20} />, color: "#f59e0b", bg: "#fffbeb", href: "/admin/referrals" },
+    { label: "Active Children", value: active, icon: <Users size={20} />, color: "#10b981", bg: "#ecfdf5", href: "/admin/children" },
+    { label: "Reports Written", value: reports.length, icon: <BarChart3 size={20} />, color: "#8b5cf6", bg: "#f5f3ff", href: "/admin/reports" },
   ];
 
   const statusIcon = (s: string) => {
-    if (s === "approved" || s === "enrolled") return <CheckCircle size={14} className="text-green-500" />;
-    if (s === "rejected") return <XCircle size={14} className="text-red-500" />;
-    return <AlertCircle size={14} className="text-yellow-500" />;
+    if (s === "approved" || s === "enrolled") return <CheckCircle size={14} color="#10b981" />;
+    if (s === "rejected") return <XCircle size={14} color="#ef4444" />;
+    return <AlertCircle size={14} color="#f59e0b" />;
   };
-
-  const statusColor = (s: string) => {
-    if (s === "approved" || s === "enrolled") return "bg-green-100 text-green-700";
-    if (s === "rejected") return "bg-red-100 text-red-700";
-    return "bg-yellow-100 text-yellow-700";
+  const statusBadge = (s: string) => {
+    const map: Record<string, { bg: string; color: string }> = {
+      pending: { bg: "#fffbeb", color: "#d97706" },
+      approved: { bg: "#ecfdf5", color: "#059669" },
+      rejected: { bg: "#fef2f2", color: "#dc2626" },
+      enrolled: { bg: "#eff6ff", color: "#2563eb" },
+    };
+    return map[s] || { bg: "#f1f5f9", color: "#64748b" };
   };
 
   if (loading) return (
-    <div className="flex items-center justify-center h-64">
-      <div className="w-8 h-8 border-4 border-ymoBlue border-t-transparent rounded-full animate-spin"></div>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 300 }}>
+      <Loader2 size={32} className="animate-spin" style={{ color: "#C9A84C" }} />
     </div>
   );
 
   return (
-    <div className="space-y-8">
+    <div style={{ maxWidth: 1100 }}>
       {/* Welcome */}
-      <div className="bg-ymoBlue text-white rounded-3xl p-8">
-        <h2 className="text-2xl font-black mb-1">Welcome back, Miss Ashitey 👋</h2>
-        <p className="text-blue-300 text-sm">Here's what's happening at YMO today.</p>
+      <div style={{
+        background: "linear-gradient(135deg, #0A0F1E, #1E2A3A)",
+        borderRadius: 20, padding: "2rem", marginBottom: "1.5rem",
+        border: "1px solid rgba(201,168,76,0.15)",
+        position: "relative", overflow: "hidden",
+      }}>
+        <div style={{ position: "absolute", right: "-20px", top: "-20px", width: 150, height: 150, borderRadius: "50%", background: "radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 70%)" }} />
+        <h2 style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "1.8rem", fontWeight: 700, color: "#fff", marginBottom: "0.25rem" }}>
+          Welcome back 👋
+        </h2>
+        <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.9rem" }}>Here's what's happening at YMO today.</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((s) => (
-          <Link key={s.label} href={s.href} className="bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-lg transition-all group">
-            <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 ${s.color}`}>{s.icon}</div>
-            <p className="text-3xl font-black text-ymoBlue mb-1">{s.value}</p>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{s.label}</p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
+        {stats.map(s => (
+          <Link key={s.label} href={s.href} style={{
+            background: "#fff", borderRadius: 16, padding: "1.5rem",
+            border: "1px solid #e8e0d4", textDecoration: "none",
+            display: "block", transition: "transform 0.2s, box-shadow 0.2s",
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(0,0,0,0.08)"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}>
+            <div style={{ width: 44, height: 44, background: s.bg, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: s.color, marginBottom: "1rem" }}>{s.icon}</div>
+            <div style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "2.5rem", fontWeight: 700, color: "#0A0F1E", lineHeight: 1 }}>{s.value}</div>
+            <div style={{ fontSize: "0.7rem", fontWeight: 600, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "0.35rem" }}>{s.label}</div>
           </Link>
         ))}
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem", marginBottom: "1.5rem" }}>
         {/* Recent Referrals */}
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-            <h3 className="font-black text-ymoBlue uppercase tracking-tight text-sm">Recent Referrals</h3>
-            <Link href="/admin/referrals" className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">View all <ArrowRight size={12} /></Link>
+        <div style={{ background: "#fff", borderRadius: 20, border: "1px solid #e8e0d4", overflow: "hidden" }}>
+          <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid #f0ece4", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h3 style={{ fontFamily: "Cormorant Garamond, serif", fontWeight: 700, fontSize: "1.1rem", color: "#0A0F1E" }}>Recent Referrals</h3>
+            <Link href="/admin/referrals" style={{ fontSize: "0.75rem", fontWeight: 600, color: "#C9A84C", textDecoration: "none", display: "flex", alignItems: "center", gap: "0.25rem" }}>All <ArrowRight size={12} /></Link>
           </div>
-          <div className="divide-y divide-gray-50">
-            {referrals.slice(0, 5).map((r) => (
-              <div key={r.id} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition">
-                <div>
-                  <p className="font-bold text-sm text-gray-800">{r.childName || "Unknown Child"}</p>
-                  <p className="text-xs text-gray-400">by {r.referrerName} · {r.concern}</p>
+          {referrals.length === 0 ? (
+            <div style={{ padding: "3rem", textAlign: "center", color: "#94a3b8", fontSize: "0.9rem" }}>No referrals yet</div>
+          ) : (
+            <div>
+              {referrals.slice(0, 5).map(r => (
+                <div key={r.id} style={{ padding: "1rem 1.5rem", borderBottom: "1px solid #f9f6f0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#0A0F1E" }}>{r.childName || "Unknown Child"}</div>
+                    <div style={{ fontSize: "0.75rem", color: "#94a3b8", marginTop: 2 }}>by {r.referrerName}</div>
+                  </div>
+                  <span style={{
+                    display: "flex", alignItems: "center", gap: "0.35rem",
+                    fontSize: "0.65rem", fontWeight: 700, padding: "0.3rem 0.75rem",
+                    borderRadius: 100, textTransform: "uppercase", letterSpacing: "0.08em",
+                    background: statusBadge(r.status).bg, color: statusBadge(r.status).color,
+                  }}>
+                    {statusIcon(r.status)} {r.status}
+                  </span>
                 </div>
-                <span className={`flex items-center gap-1 text-xs font-bold px-3 py-1 rounded-full capitalize ${statusColor(r.status)}`}>
-                  {statusIcon(r.status)} {r.status}
-                </span>
-              </div>
-            ))}
-            {referrals.length === 0 && <p className="px-6 py-8 text-sm text-gray-400 text-center">No referrals yet.</p>}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Active Children */}
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-            <h3 className="font-black text-ymoBlue uppercase tracking-tight text-sm">Active Children</h3>
-            <Link href="/admin/children" className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">View all <ArrowRight size={12} /></Link>
+        <div style={{ background: "#fff", borderRadius: 20, border: "1px solid #e8e0d4", overflow: "hidden" }}>
+          <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid #f0ece4", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h3 style={{ fontFamily: "Cormorant Garamond, serif", fontWeight: 700, fontSize: "1.1rem", color: "#0A0F1E" }}>Active Children</h3>
+            <Link href="/admin/children" style={{ fontSize: "0.75rem", fontWeight: 600, color: "#C9A84C", textDecoration: "none", display: "flex", alignItems: "center", gap: "0.25rem" }}>All <ArrowRight size={12} /></Link>
           </div>
-          <div className="divide-y divide-gray-50">
-            {children.filter(c => c.status === "active").slice(0, 5).map((c) => (
-              <Link key={c.id} href={`/admin/children/${c.id}`} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-blue-100 rounded-xl flex items-center justify-center text-blue-700 font-black text-sm">
-                    {c.name[0]}
+          {children.filter(c => c.status === "active").length === 0 ? (
+            <div style={{ padding: "3rem", textAlign: "center", color: "#94a3b8", fontSize: "0.9rem" }}>No active children yet</div>
+          ) : (
+            <div>
+              {children.filter(c => c.status === "active").slice(0, 5).map(c => (
+                <Link key={c.id} href={`/admin/children/${c.id}`} style={{
+                  padding: "1rem 1.5rem", borderBottom: "1px solid #f9f6f0",
+                  display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none",
+                  transition: "background 0.15s",
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#fafaf8"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}>
+                  <div style={{
+                    width: 36, height: 36,
+                    background: "linear-gradient(135deg, #C9A84C, #F0D080)",
+                    borderRadius: 10, display: "flex", alignItems: "center",
+                    justifyContent: "center", fontWeight: 700, fontSize: "0.9rem", color: "#0A0F1E", flexShrink: 0,
+                  }}>{c.name[0]}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#0A0F1E" }}>{c.name}</div>
+                    <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Age {c.age} · {c.community}</div>
                   </div>
-                  <div>
-                    <p className="font-bold text-sm text-gray-800">{c.name}</p>
-                    <p className="text-xs text-gray-400">Age {c.age} · {c.community}</p>
-                  </div>
-                </div>
-                <ArrowRight size={14} className="text-gray-300" />
-              </Link>
-            ))}
-            {children.filter(c => c.status === "active").length === 0 && (
-              <p className="px-6 py-8 text-sm text-gray-400 text-center">No active children yet.</p>
-            )}
-          </div>
+                  <ArrowRight size={14} color="#d1d5db" />
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Pillar Overview */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-6">
-        <h3 className="font-black text-ymoBlue uppercase tracking-tight text-sm mb-6">Pillar Progress Overview</h3>
-        <div className="grid md:grid-cols-3 gap-6">
-          {["christianLife", "education", "personalLife"].map((pillar, i) => {
-            const labels = ["Christian Life", "Education", "Personal Life"];
-            const colors = ["bg-blue-500", "bg-green-500", "bg-purple-500"];
-            const inProgress = children.filter(c => (c.progress as any)?.[pillar] === "in_progress").length;
-            const completed = children.filter(c => (c.progress as any)?.[pillar] === "completed").length;
+      {/* Pillar Progress */}
+      <div style={{ background: "#fff", borderRadius: 20, border: "1px solid #e8e0d4", padding: "1.5rem" }}>
+        <h3 style={{ fontFamily: "Cormorant Garamond, serif", fontWeight: 700, fontSize: "1.1rem", color: "#0A0F1E", marginBottom: "1.5rem" }}>Pillar Progress Overview</h3>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1.5rem" }}>
+          {[
+            { key: "christianLife", label: "Christian Life", color: "#3b82f6" },
+            { key: "education", label: "Education", color: "#10b981" },
+            { key: "personalLife", label: "Personal Life", color: "#8b5cf6" },
+          ].map(p => {
+            const completed = children.filter(c => (c.progress as any)?.[p.key] === "completed").length;
             const total = children.length || 1;
             const pct = Math.round((completed / total) * 100);
             return (
-              <div key={pillar}>
-                <div className="flex justify-between mb-2">
-                  <span className="text-xs font-bold text-gray-600 uppercase tracking-widest">{labels[i]}</span>
-                  <span className="text-xs font-bold text-gray-400">{pct}%</span>
+              <div key={p.key}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                  <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.08em" }}>{p.label}</span>
+                  <span style={{ fontSize: "0.75rem", fontWeight: 700, color: p.color }}>{pct}%</span>
                 </div>
-                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div className={`h-full ${colors[i]} rounded-full transition-all`} style={{ width: `${pct}%` }} />
+                <div style={{ height: 6, background: "#f0ece4", borderRadius: 99, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: `${pct}%`, background: p.color, borderRadius: 99, transition: "width 0.5s ease" }} />
                 </div>
-                <p className="text-xs text-gray-400 mt-1">{completed} completed · {inProgress} in progress</p>
+                <div style={{ fontSize: "0.7rem", color: "#94a3b8", marginTop: "0.35rem" }}>{completed} of {children.length} completed</div>
               </div>
             );
           })}

@@ -7,12 +7,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ymoBlue: "#0F172A",
-        ymoGold: "#D4AF37",
-        ymoLight: "#F8FAFC",
+        navy: "#0A0F1E",
+        gold: "#C9A84C",
+        "gold-light": "#F0D080",
+        cream: "#F9F6F0",
+        slate: "#1E2A3A",
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["Georgia", "Cambria", "serif"],
+        body: ["'Trebuchet MS'", "Helvetica", "sans-serif"],
       },
     },
   },
