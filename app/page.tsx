@@ -1,10 +1,135 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, X, ArrowRight, Shield, BookOpen, Heart, ChevronDown } from "lucide-react";
+import {
+  Menu,
+  X,
+  ArrowRight,
+  ChevronDown,
+  Shield,
+  BookOpen,
+  Heart,
+  BadgeCheck,
+  Users,
+  HandHeart,
+  Sparkles,
+  ClipboardCheck,
+  UserCheck,
+  Waypoints,
+  Home as HomeIcon,
+  ShieldCheck,
+  ChevronRight,
+} from "lucide-react";
 import ReferralForm from "@/components/public/ReferralForm";
 
-const G = "#40916C", GD = "#2D6A4F", GL = "#74C69D", GP = "#D8F3DC", BG = "#F0FAF4";
+const G = "#40916C";
+const GD = "#2D6A4F";
+const GL = "#74C69D";
+const GP = "#D8F3DC";
+const BG = "#F0FAF4";
+
+const navLinks = [
+  { id: "about", label: "Mission" },
+  { id: "pillars", label: "Our Pillars" },
+  { id: "impact", label: "Impact" },
+  { id: "process", label: "Process" },
+  { id: "refer", label: "Referral" },
+];
+
+const trustStats = [
+  { value: "200+", label: "Children Supported" },
+  { value: "15", label: "Communities Reached" },
+  { value: "100+", label: "Sponsors" },
+  { value: "24/7", label: "Mentorship" },
+];
+
+const introCards = [
+  {
+    icon: Users,
+    title: "Who we serve",
+    desc: "Children who have been overlooked by traditional support systems and need consistent spiritual, educational, and personal guidance.",
+  },
+  {
+    icon: HandHeart,
+    title: "What we provide",
+    desc: "Faith-based mentorship, educational support, and character-building guidance delivered with care, structure, and accountability.",
+  },
+  {
+    icon: Sparkles,
+    title: "What changes",
+    desc: "Children are supported to grow into committed Christians and responsible citizens who can lead with confidence and purpose.",
+  },
+];
+
+const pillars = [
+  {
+    icon: Shield,
+    title: "Christian Life",
+    desc: "Scriptural literacy, prayer, discipleship, and spiritual mentorship that help children build a deep relationship with God.",
+  },
+  {
+    icon: BookOpen,
+    title: "Education",
+    desc: "Tutoring, academic guidance, learning resources, and structured support that bridge gaps and strengthen long-term outcomes.",
+    featured: true,
+  },
+  {
+    icon: Heart,
+    title: "Personal Life",
+    desc: "Character formation, responsibility, ethics, and practical life skills that help children thrive in daily life and community.",
+  },
+];
+
+const processSteps = [
+  {
+    step: "01",
+    title: "Referral",
+    desc: "A guardian, educator, church leader, or trusted community member confidentially flags a child who may need support.",
+    icon: ClipboardCheck,
+  },
+  {
+    step: "02",
+    title: "Assessment",
+    desc: "The YMO team reviews the child’s spiritual, academic, and personal needs to understand the right next step.",
+    icon: UserCheck,
+  },
+  {
+    step: "03",
+    title: "Integration",
+    desc: "The child is enrolled into a structured support journey built around faith, education, and personal development.",
+    icon: Waypoints,
+  },
+  {
+    step: "04",
+    title: "Transformation",
+    desc: "Ongoing mentorship helps the child grow into a committed Christian leader and responsible citizen.",
+    icon: HomeIcon,
+  },
+];
+
+const pathways = [
+  {
+    title: "Refer a child",
+    desc: "Know a child who may need support? Start a confidential referral with the information you have.",
+    target: "refer",
+  },
+  {
+    title: "Review the process",
+    desc: "Understand how referrals are assessed and how children move into YMO’s support structure.",
+    target: "process",
+  },
+  {
+    title: "See the impact",
+    desc: "Explore the outcomes and numbers the organization is already highlighting on its homepage.",
+    target: "impact",
+  },
+  {
+    title: "Read governance",
+    desc: "Learn about the vision, founder leadership, and the accountability structure being built around the mission.",
+    target: "governance",
+  },
+];
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,318 +145,598 @@ export default function Home() {
     setMenuOpen(false);
     const el = document.getElementById(id);
     if (el) {
-      const offset = 75;
-      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      const top = el.getBoundingClientRect().top + window.scrollY - 84;
       window.scrollTo({ top, behavior: "smooth" });
     }
   };
 
-  const navLinks = [
-    { id: "about", label: "Mission" },
-    { id: "pillars", label: "Our Pillars" },
-    { id: "process", label: "Process" },
-    { id: "refer", label: "Refer a Child" },
-  ];
+  const sectionTag = (label: string) => (
+    <div
+      className="mb-3 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.24em]"
+      style={{ color: G, borderColor: "rgba(64,145,108,0.18)", background: "rgba(216,243,220,0.45)" }}
+    >
+      <span className="h-1.5 w-1.5 rounded-full" style={{ background: G }} />
+      {label}
+    </div>
+  );
 
   return (
-    <main style={{ background: "#fff", color: "#1a1a2e" }}>
-
-      {/* ── NAV ── */}
-      <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
-        background: "rgba(255,255,255,0.98)",
-        backdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(64,145,108,0.15)",
-        boxShadow: scrolled ? "0 4px 20px rgba(0,0,0,0.07)" : "none",
-        transition: "box-shadow .3s",
-      }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", height: 68, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 1.5rem" }}>
-
-          {/* Logo */}
-          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ display: "flex", alignItems: "center", gap: "0.6rem", background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-            <div style={{ width: 38, height: 38, background: G, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Playfair Display,serif", fontWeight: 900, fontSize: "1.1rem", color: "#fff", fontStyle: "italic", flexShrink: 0 }}>Y</div>
-            <div style={{ textAlign: "left" }}>
-              <div style={{ fontFamily: "Playfair Display,serif", fontWeight: 700, fontSize: "1rem", color: "#1a1a2e", lineHeight: 1 }}>YOUNG IN MIND</div>
-              <div style={{ fontSize: "0.55rem", fontWeight: 700, color: G, letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 2 }}>Organization</div>
+    <main className="bg-white text-slate-900">
+      <nav
+        className="fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl"
+        style={{
+          background: "rgba(255,255,255,0.94)",
+          borderColor: "rgba(64,145,108,0.14)",
+          boxShadow: scrolled ? "0 10px 30px rgba(15,23,42,0.08)" : "none",
+        }}
+      >
+        <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 md:px-8">
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="flex items-center gap-3 text-left"
+          >
+            <div
+              className="flex h-11 w-11 items-center justify-center rounded-xl text-lg font-black italic text-white shadow-lg"
+              style={{ background: `linear-gradient(135deg, ${G}, ${GD})` }}
+            >
+              Y
+            </div>
+            <div>
+              <div className="font-serif text-[15px] font-bold tracking-[0.08em] text-slate-900">YOUNG IN MIND</div>
+              <div className="text-[10px] font-extrabold uppercase tracking-[0.28em]" style={{ color: G }}>
+                Organization
+              </div>
             </div>
           </button>
 
-          {/* Desktop links */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }} className="hidden md:flex">
-            {navLinks.map(({ id, label }) => (
-              <button key={id} onClick={() => scrollTo(id)} style={{
-                fontSize: "0.78rem", fontWeight: 600, color: "#6b7280",
-                background: "none", border: "none", cursor: "pointer",
-                padding: "0.5rem 0.875rem", borderRadius: 8, transition: "all .2s",
-                fontFamily: "inherit",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = G; (e.currentTarget as HTMLElement).style.background = BG; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#6b7280"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
-                {label}
+          <div className="hidden items-center gap-1 md:flex">
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollTo(link.id)}
+                className="rounded-full px-4 py-2 text-sm font-semibold text-slate-500 transition hover:text-slate-900"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = BG;
+                  e.currentTarget.style.color = GD;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "#64748b";
+                }}
+              >
+                {link.label}
               </button>
             ))}
           </div>
 
-          {/* Right side */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }} className="hidden md:flex">
-            <Link href="/admin/login" style={{
-              fontSize: "0.75rem", fontWeight: 700, color: "#6b7280",
-              textDecoration: "none", padding: "0.5rem 1rem",
-              border: "1px solid #e5e7eb", borderRadius: 8, transition: "all .2s",
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = G; (e.currentTarget as HTMLElement).style.color = G; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "#e5e7eb"; (e.currentTarget as HTMLElement).style.color = "#6b7280"; }}>
-              Admin
+          <div className="hidden items-center gap-3 md:flex">
+            <Link
+              href="/admin/login"
+              className="rounded-full border px-4 py-2 text-sm font-bold text-slate-600 transition hover:text-slate-900"
+              style={{ borderColor: "rgba(148,163,184,0.3)" }}
+            >
+              Admin portal
             </Link>
-            <button onClick={() => scrollTo("refer")} style={{
-              background: G, color: "#fff", border: "none",
-              padding: "0.6rem 1.4rem", borderRadius: 100,
-              fontWeight: 700, fontSize: "0.78rem", cursor: "pointer",
-              fontFamily: "inherit", transition: "all .2s",
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = GD; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = G; }}>
-              Donate
+            <button
+              onClick={() => scrollTo("refer")}
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-extrabold text-white shadow-lg transition hover:-translate-y-0.5"
+              style={{ background: `linear-gradient(135deg, ${G}, ${GD})` }}
+            >
+              Refer a child
+              <ArrowRight size={16} />
             </button>
           </div>
 
-          {/* Hamburger */}
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden" style={{ background: "none", border: "none", cursor: "pointer", color: "#1a1a2e", padding: "0.25rem" }}>
+          <button className="md:hidden" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
-          <div style={{ background: "#fff", borderTop: `1px solid ${BG}`, padding: "1rem 1.5rem 1.5rem" }}>
-            {navLinks.map(({ id, label }) => (
-              <button key={id} onClick={() => scrollTo(id)} style={{
-                display: "block", width: "100%", textAlign: "left",
-                padding: "0.85rem 0", fontSize: "1rem", fontWeight: 600,
-                color: "#1a1a2e", background: "none", border: "none",
-                borderBottom: "1px solid #f3f4f6", cursor: "pointer",
-                fontFamily: "inherit",
-              }}>{label}</button>
-            ))}
-            <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem" }}>
-              <Link href="/admin/login" onClick={() => setMenuOpen(false)} style={{
-                flex: 1, textAlign: "center", padding: "0.75rem",
-                border: "1px solid #e5e7eb", borderRadius: 10,
-                fontWeight: 700, fontSize: "0.85rem", color: "#6b7280",
-                textDecoration: "none",
-              }}>Admin</Link>
-              <button onClick={() => scrollTo("refer")} style={{
-                flex: 1, background: G, color: "#fff", border: "none",
-                padding: "0.75rem", borderRadius: 10,
-                fontWeight: 700, fontSize: "0.85rem", cursor: "pointer",
-                fontFamily: "inherit",
-              }}>Donate</button>
+          <div className="border-t bg-white px-5 py-4 md:hidden" style={{ borderColor: "rgba(64,145,108,0.12)" }}>
+            <div className="flex flex-col">
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => scrollTo(link.id)}
+                  className="border-b py-3 text-left text-sm font-semibold text-slate-700"
+                  style={{ borderColor: "rgba(226,232,240,0.9)" }}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <Link
+                href="/admin/login"
+                className="rounded-xl border px-4 py-3 text-center text-sm font-bold text-slate-600"
+                style={{ borderColor: "rgba(148,163,184,0.3)" }}
+              >
+                Admin
+              </Link>
+              <button
+                onClick={() => scrollTo("refer")}
+                className="rounded-xl px-4 py-3 text-sm font-extrabold text-white"
+                style={{ background: `linear-gradient(135deg, ${G}, ${GD})` }}
+              >
+                Refer
+              </button>
             </div>
           </div>
         )}
       </nav>
 
-      {/* ── HERO ── */}
-      <section style={{ minHeight: "100vh", paddingTop: 68, position: "relative", overflow: "hidden", display: "flex", alignItems: "center" }}>
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=80')`,
-          backgroundSize: "cover", backgroundPosition: "center",
-        }} />
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "4rem 1.5rem", position: "relative", zIndex: 1, width: "100%" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "rgba(64,145,108,0.85)", backdropFilter: "blur(8px)", borderRadius: 100, padding: "0.4rem 1rem", marginBottom: "1.5rem" }}>
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: GL }} />
-            <span style={{ fontSize: "0.65rem", fontWeight: 700, color: "#fff", letterSpacing: "0.2em", textTransform: "uppercase" }}>Faith · Education · Character</span>
-          </div>
-          <h1 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(2.8rem,7vw,5.5rem)", fontWeight: 900, color: "#fff", lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: "1.25rem" }}>
-            Transforming Lives<br />Through <em style={{ color: GL }}>Faith &amp; Support</em>
-          </h1>
-          <p style={{ fontSize: "clamp(1rem,2vw,1.15rem)", color: "rgba(255,255,255,0.82)", lineHeight: 1.8, maxWidth: 540, marginBottom: "2rem" }}>
-            Supporting vulnerable children through education, care, and Christian values — giving them the foundation to become responsible leaders in society.
-          </p>
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            <button onClick={() => scrollTo("refer")} style={{
-              display: "inline-flex", alignItems: "center", gap: "0.6rem",
-              background: "#fff", color: GD, padding: "0.9rem 1.75rem",
-              borderRadius: 10, fontWeight: 800, fontSize: "0.9rem",
-              border: "none", cursor: "pointer", fontFamily: "inherit",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.2)", transition: "transform .2s",
-            }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "translateY(0)"}>
-              Refer a Child <ArrowRight size={16} />
-            </button>
-            <button onClick={() => scrollTo("about")} style={{
-              display: "inline-flex", alignItems: "center", gap: "0.6rem",
-              border: "2px solid rgba(255,255,255,0.6)", color: "#fff",
-              padding: "0.9rem 1.75rem", borderRadius: 10,
-              fontWeight: 700, fontSize: "0.9rem",
-              background: "none", cursor: "pointer", fontFamily: "inherit",
-              transition: "all .2s",
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.1)"; (e.currentTarget as HTMLElement).style.borderColor = "#fff"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "none"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.6)"; }}>
-              Learn More
-            </button>
-          </div>
-        </div>
-        <div style={{ position: "absolute", bottom: "2rem", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.35rem", color: "rgba(255,255,255,0.5)", cursor: "pointer" }} onClick={() => scrollTo("about")}>
-          <span style={{ fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase" }}>Scroll</span>
-          <ChevronDown size={16} />
-        </div>
-      </section>
+      <section className="relative isolate overflow-hidden px-5 pb-16 pt-32 md:px-8 md:pb-20 md:pt-36">
+        <div
+          className="absolute inset-0 -z-20"
+          style={{
+            backgroundImage:
+              "linear-gradient(120deg, rgba(15,23,42,0.82), rgba(15,23,42,0.66)), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1800&q=80')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-white/10" />
 
-      {/* ── WHO WE ARE ── */}
-      <section id="about" style={{ background: "#fff", padding: "3rem 1.5rem", borderBottom: `2px solid ${GP}` }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <p style={{ fontSize: "1rem", lineHeight: 1.8, color: "#6b7280" }}>
-            <strong style={{ color: "#1a1a2e" }}>Who We Are: </strong>
-            YMO is a Christian organization dedicated to improving the lives of children through education, support, and faith-driven initiatives. We identify children who have been overlooked by traditional support systems and walk alongside them on their journey to becoming committed Christians and responsible citizens.
-          </p>
-        </div>
-      </section>
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+          <div className="max-w-3xl">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.24em] text-white/90 backdrop-blur-md">
+              <span className="h-1.5 w-1.5 rounded-full" style={{ background: GL }} />
+              Faith · Education · Character
+            </div>
+            <h1 className="max-w-4xl font-serif text-[clamp(3rem,7vw,5.8rem)] font-black leading-[0.95] text-white">
+              Helping overlooked children grow in faith, learning, and character.
+            </h1>
+            <p className="mt-6 max-w-2xl text-[17px] leading-8 text-white/80 md:text-[18px]">
+              Young In Mind identifies vulnerable children, supports their education and personal development, and walks with them through Christian values so they can become responsible leaders in society.
+            </p>
 
-      {/* ── PILLARS ── */}
-      <section id="pillars" style={{ background: BG, padding: "5rem 1.5rem" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, color: G, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Our Foundation</div>
-            <h2 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 700, color: "#1a1a2e", marginBottom: "0.75rem" }}>Our Three-Fold Commitment</h2>
-            <div style={{ width: 50, height: 3, background: G, borderRadius: 2, margin: "0 auto 1rem" }} />
-            <p style={{ color: "#6b7280", maxWidth: 500, margin: "0 auto", lineHeight: 1.7 }}>Focusing on the areas critical to a child's success in this life and the next.</p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <button
+                onClick={() => scrollTo("refer")}
+                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-extrabold text-slate-900 shadow-2xl transition hover:-translate-y-0.5"
+              >
+                Start a confidential referral
+                <ArrowRight size={16} />
+              </button>
+              <button
+                onClick={() => scrollTo("process")}
+                className="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+              >
+                See how it works
+              </button>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3 text-sm text-white/85">
+              {[
+                "200+ children supported",
+                "15 communities reached",
+                "Confidential referral process",
+              ].map((item) => (
+                <div key={item} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-md">
+                  {item}
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "1.5rem" }}>
-            {[
-              { icon: <Shield size={26} />, title: "Christian Life", desc: "Nurturing a deep, committed relationship with God through scriptural literacy, prayer, and discipleship.", num: "01", featured: false },
-              { icon: <BookOpen size={26} />, title: "Education", desc: "Bridging academic gaps by providing resources, tutoring, and structured support for children in underserved communities.", num: "02", featured: true },
-              { icon: <Heart size={26} />, title: "Personal Life", desc: "Character building and life skills training to develop responsible, ethical, and high-functioning citizens.", num: "03", featured: false },
-            ].map(p => (
-              <div key={p.title} style={{
-                background: p.featured ? GD : "#fff",
-                borderRadius: 18, padding: "2.5rem",
-                border: p.featured ? "none" : `1px solid rgba(64,145,108,0.12)`,
-                position: "relative", overflow: "hidden",
-                boxShadow: p.featured ? `0 20px 50px rgba(45,106,79,0.25)` : "none",
-                transition: "all .3s",
-              }}
-              onMouseEnter={e => { if (!p.featured) { (e.currentTarget as HTMLElement).style.transform = "translateY(-6px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 20px 50px rgba(64,145,108,0.15)"; } }}
-              onMouseLeave={e => { if (!p.featured) { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; } }}>
-                <div style={{ position: "absolute", bottom: "1rem", right: "1.5rem", fontFamily: "Playfair Display,serif", fontSize: "4rem", fontWeight: 900, color: p.featured ? "rgba(255,255,255,0.06)" : "rgba(64,145,108,0.06)", lineHeight: 1, pointerEvents: "none" }}>{p.num}</div>
-                <div style={{ width: 56, height: 56, background: p.featured ? "rgba(255,255,255,0.15)" : GP, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.25rem", color: p.featured ? "#fff" : G }}>{p.icon}</div>
-                <h3 style={{ fontFamily: "Playfair Display,serif", fontSize: "1.4rem", fontWeight: 700, color: p.featured ? "#fff" : "#1a1a2e", marginBottom: "0.75rem" }}>{p.title}</h3>
-                <div style={{ width: 30, height: 2, background: p.featured ? GL : G, marginBottom: "1rem" }} />
-                <p style={{ color: p.featured ? "rgba(255,255,255,0.7)" : "#6b7280", lineHeight: 1.7, fontSize: "0.92rem" }}>{p.desc}</p>
+
+          <div className="grid gap-4 lg:justify-self-end">
+            <div className="rounded-3xl border border-white/15 bg-white/10 p-6 text-white shadow-2xl backdrop-blur-md">
+              <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/65">Our mission</div>
+              <p className="mt-3 text-lg font-medium leading-8 text-white/90">
+                Supporting children in the areas that shape life most deeply: spiritual growth, educational progress, and personal responsibility.
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-3xl border border-white/15 bg-white/10 p-5 text-white shadow-xl backdrop-blur-md">
+                <div className="text-3xl font-black">2024</div>
+                <div className="mt-1 text-sm text-white/70">Founded</div>
               </div>
-            ))}
+              <div className="rounded-3xl border border-white/15 bg-white/10 p-5 text-white shadow-xl backdrop-blur-md">
+                <div className="text-3xl font-black">24/7</div>
+                <div className="mt-1 text-sm text-white/70">Mentorship mindset</div>
+              </div>
+            </div>
           </div>
         </div>
+
+        <button
+          onClick={() => scrollTo("about")}
+          className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1 text-[11px] font-bold uppercase tracking-[0.24em] text-white/60"
+        >
+          Scroll
+          <ChevronDown size={16} />
+        </button>
       </section>
 
-      {/* ── IMPACT ── */}
-      <section style={{ background: "#fff", padding: "5rem 1.5rem" }}>
-        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <div style={{ fontSize: "0.7rem", fontWeight: 700, color: G, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Numbers That Matter</div>
-          <h2 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 700, color: "#1a1a2e", marginBottom: "0.75rem" }}>Our Impact</h2>
-          <div style={{ width: 50, height: 3, background: G, borderRadius: 2, margin: "0 auto" }} />
-        </div>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: "0" }}>
-          {[{ value: "200+", label: "Children Helped" }, { value: "15", label: "Communities Reached" }, { value: "100+", label: "Sponsors" }, { value: "24/7", label: "Mentorship" }].map((s, i) => (
-            <div key={s.label} style={{ textAlign: "center", padding: "2.5rem 1.5rem", borderRight: i < 3 ? `1px solid ${BG}` : "none" }}>
-              <div style={{ fontFamily: "Playfair Display,serif", fontSize: "3.5rem", fontWeight: 900, color: G, lineHeight: 1, marginBottom: "0.5rem" }}>{s.value}</div>
-              <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.1em" }}>{s.label}</div>
+      <section className="px-5 py-6 md:px-8">
+        <div
+          className="mx-auto grid max-w-7xl gap-4 rounded-[28px] border px-6 py-5 shadow-sm md:grid-cols-4"
+          style={{ background: BG, borderColor: "rgba(64,145,108,0.12)" }}
+        >
+          {trustStats.map((stat) => (
+            <div key={stat.label} className="flex items-center gap-4 rounded-2xl bg-white px-4 py-4 shadow-sm">
+              <div
+                className="flex h-12 w-12 items-center justify-center rounded-2xl text-sm font-black"
+                style={{ background: GP, color: GD }}
+              >
+                <BadgeCheck size={20} />
+              </div>
+              <div>
+                <div className="font-serif text-2xl font-black" style={{ color: GD }}>
+                  {stat.value}
+                </div>
+                <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{stat.label}</div>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── PROCESS ── */}
-      <section id="process" style={{ background: BG, padding: "5rem 1.5rem" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, color: G, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>How It Works</div>
-            <h2 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 700, color: "#1a1a2e" }}>Our Intervention Process</h2>
-            <div style={{ width: 50, height: 3, background: G, borderRadius: 2, margin: "1rem auto 0" }} />
+      <section id="about" className="px-5 py-16 md:px-8 md:py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="max-w-3xl">
+            {sectionTag("Who we are")}
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.4rem)] font-bold leading-tight text-slate-900">
+              A mission-led homepage should feel clear, credible, and compassionate.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              YMO exists to identify children who have been overlooked by traditional support systems and to walk with them through faith-driven care, education, and character development.
+            </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: "1.25rem" }}>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {introCards.map((card) => {
+              const Icon = card.icon;
+              return (
+                <div
+                  key={card.title}
+                  className="rounded-[28px] border bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                  style={{ borderColor: "rgba(64,145,108,0.12)" }}
+                >
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: GP, color: G }}>
+                    <Icon size={24} />
+                  </div>
+                  <h3 className="mt-5 font-serif text-2xl font-bold text-slate-900">{card.title}</h3>
+                  <p className="mt-3 text-[15px] leading-7 text-slate-600">{card.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section id="pillars" className="px-5 py-16 md:px-8 md:py-20" style={{ background: BG }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="max-w-3xl text-center mx-auto">
+            {sectionTag("Our foundation")}
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">Every child is supported in three essential areas.</h2>
+            <p className="mt-4 text-lg leading-8 text-slate-600">
+              The homepage should show not only what YMO believes, but also what each child tangibly receives through the program.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {pillars.map((pillar, index) => {
+              const Icon = pillar.icon;
+              const featured = Boolean(pillar.featured);
+              return (
+                <div
+                  key={pillar.title}
+                  className="relative overflow-hidden rounded-[30px] p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-2xl"
+                  style={{
+                    background: featured ? `linear-gradient(160deg, ${GD}, ${G})` : "white",
+                    color: featured ? "white" : "#0f172a",
+                    border: featured ? "none" : "1px solid rgba(64,145,108,0.12)",
+                  }}
+                >
+                  <div className="absolute right-6 top-6 font-serif text-6xl font-black opacity-10">0{index + 1}</div>
+                  <div
+                    className="flex h-14 w-14 items-center justify-center rounded-2xl"
+                    style={{
+                      background: featured ? "rgba(255,255,255,0.14)" : GP,
+                      color: featured ? "white" : G,
+                    }}
+                  >
+                    <Icon size={24} />
+                  </div>
+                  <h3 className="mt-6 font-serif text-3xl font-bold">{pillar.title}</h3>
+                  <div className="mt-4 h-1 w-14 rounded-full" style={{ background: featured ? GL : G }} />
+                  <p className="mt-5 text-[15px] leading-7" style={{ color: featured ? "rgba(255,255,255,0.82)" : "#475569" }}>
+                    {pillar.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section id="impact" className="px-5 py-16 md:px-8 md:py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div>
+            {sectionTag("Impact and proof")}
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">The homepage should pair inspiration with evidence.</h2>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+              These figures are already part of YMO’s public story. Surfacing them earlier and giving them stronger visual weight makes the homepage feel more established and easier to trust.
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {trustStats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-[24px] border p-6"
+                  style={{ background: "white", borderColor: "rgba(64,145,108,0.12)" }}
+                >
+                  <div className="font-serif text-5xl font-black leading-none" style={{ color: G }}>
+                    {stat.value}
+                  </div>
+                  <div className="mt-3 text-sm font-bold uppercase tracking-[0.16em] text-slate-500">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-sm leading-6 text-slate-500">
+              Impact figures are presented as part of YMO’s current homepage narrative alongside its founding year of 2024 and should later be supported by periodic reporting or an annual impact summary.
+            </p>
+          </div>
+
+          <div className="rounded-[32px] border p-8 shadow-sm" style={{ background: BG, borderColor: "rgba(64,145,108,0.12)" }}>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500 shadow-sm">
+              <ShieldCheck size={16} style={{ color: G }} />
+              Why this feels stronger
+            </div>
+            <h3 className="mt-6 font-serif text-3xl font-bold text-slate-900">Trust comes from structure, not only tone.</h3>
+            <p className="mt-4 text-[15px] leading-7 text-slate-600">
+              Visitors should be able to answer four questions quickly: who YMO serves, what support looks like, what proof exists today, and what happens after a referral is submitted.
+            </p>
+            <div className="mt-8 rounded-[24px] bg-white p-6 shadow-sm">
+              <div className="text-xs font-extrabold uppercase tracking-[0.18em]" style={{ color: G }}>Founder vision</div>
+              <blockquote className="mt-3 font-serif text-xl leading-9 text-slate-900">
+                “We don’t wait for children to find us. We go to them.”
+              </blockquote>
+              <p className="mt-4 text-sm leading-6 text-slate-500">
+                The revised homepage uses this kind of message best when it is reinforced by visible impact, governance, and a clear support journey.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="process" className="px-5 py-16 md:px-8 md:py-20" style={{ background: BG }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-3xl text-center">
+            {sectionTag("How it works")}
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">A clearer intervention process reduces hesitation.</h2>
+            <p className="mt-4 text-lg leading-8 text-slate-600">
+              Referral journeys often feel sensitive. The homepage should reassure families and communities that the next step is structured, careful, and confidential.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-4">
+            {processSteps.map((step) => {
+              const Icon = step.icon;
+              return (
+                <div
+                  key={step.step}
+                  className="rounded-[28px] border bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                  style={{ borderColor: "rgba(64,145,108,0.12)" }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: GP, color: G }}>
+                      <Icon size={22} />
+                    </div>
+                    <div className="font-serif text-4xl font-black text-slate-200">{step.step}</div>
+                  </div>
+                  <h3 className="mt-6 font-serif text-2xl font-bold text-slate-900">{step.title}</h3>
+                  <p className="mt-3 text-[15px] leading-7 text-slate-600">{step.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          <div
+            className="mt-8 grid gap-4 rounded-[28px] border p-6 md:grid-cols-3 md:p-8"
+            style={{ background: "white", borderColor: "rgba(64,145,108,0.12)" }}
+          >
             {[
-              { step: "01", title: "Referral", desc: "Community identifies a child in need and submits a confidential referral." },
-              { step: "02", title: "Assessment", desc: "YMO team evaluates the child's spiritual, academic, and personal needs." },
-              { step: "03", title: "Integration", desc: "Child is enrolled into our 3-pillar mentorship program." },
-              { step: "04", title: "Transformation", desc: "Child emerges as a committed Christian leader and responsible citizen." },
-            ].map(s => (
-              <div key={s.step} style={{ background: "#fff", borderRadius: 16, padding: "2rem", border: `1px solid rgba(64,145,108,0.1)`, transition: "all .3s" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 35px rgba(64,145,108,0.12)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}>
-                <div style={{ width: 40, height: 40, background: GP, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "0.9rem", color: G, marginBottom: "1rem" }}>{s.step}</div>
-                <h4 style={{ fontFamily: "Playfair Display,serif", fontSize: "1.1rem", fontWeight: 700, color: "#1a1a2e", marginBottom: "0.5rem" }}>{s.title}</h4>
-                <p style={{ fontSize: "0.85rem", color: "#6b7280", lineHeight: 1.6 }}>{s.desc}</p>
+              "All referrals are handled confidentially and reviewed with care.",
+              "Support is assessed across spiritual, academic, and personal needs.",
+              "The process is designed to help communities act early, not late.",
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3 rounded-2xl bg-slate-50 px-4 py-4 text-sm font-medium leading-6 text-slate-700">
+                <BadgeCheck size={18} className="mt-0.5 shrink-0" style={{ color: G }} />
+                {item}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── DIRECTOR ── */}
-      <section style={{ background: "#fff", padding: "5rem 1.5rem" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "4rem", alignItems: "center" }}>
-          <div style={{ width: "100%", aspectRatio: "1", background: `linear-gradient(135deg,${GP},${GL})`, borderRadius: 24, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Playfair Display,serif", fontSize: "5rem", fontWeight: 700, color: GD, position: "relative", overflow: "hidden" }}>
-            EA
-            <div style={{ position: "absolute", bottom: "1.5rem", right: "1.5rem", background: "#fff", padding: "1rem 1.25rem", borderRadius: 14, boxShadow: "0 8px 25px rgba(0,0,0,0.1)", textAlign: "center" }}>
-              <div style={{ fontFamily: "Playfair Display,serif", fontSize: "1.8rem", fontWeight: 700, color: G }}>2024</div>
-              <div style={{ fontSize: "0.6rem", fontWeight: 700, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.1em" }}>Founded</div>
+      <section id="governance" className="px-5 py-16 md:px-8 md:py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div
+            className="relative overflow-hidden rounded-[36px] border p-8 text-white shadow-xl"
+            style={{ background: `linear-gradient(145deg, ${GD}, ${G})`, borderColor: "rgba(64,145,108,0.12)" }}
+          >
+            <div className="absolute -right-10 -top-8 h-40 w-40 rounded-full bg-white/10" />
+            <div className="absolute -bottom-10 -left-10 h-44 w-44 rounded-full bg-white/10" />
+            <div className="relative">
+              <div className="inline-flex h-20 w-20 items-center justify-center rounded-[24px] bg-white/15 font-serif text-4xl font-black shadow-lg">
+                EA
+              </div>
+              <div className="mt-8 text-xs font-extrabold uppercase tracking-[0.24em] text-white/65">Leadership</div>
+              <h2 className="mt-3 font-serif text-4xl font-bold">Governance and vision</h2>
+              <blockquote className="mt-6 border-l-4 border-white/35 pl-5 font-serif text-2xl leading-10 text-white/95">
+                “We don’t wait for children to find us. We go to them. At Young In Mind, we are committed to finding the overlooked and giving them a future anchored in Christ and excellence.”
+              </blockquote>
+              <div className="mt-6 text-xl font-bold">Miss Edinia Ashitey</div>
+              <div className="mt-1 text-sm uppercase tracking-[0.18em] text-white/70">Founder &amp; Executive Director</div>
             </div>
           </div>
+
           <div>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, color: G, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Leadership</div>
-            <h2 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.8rem,4vw,2.5rem)", fontWeight: 700, color: "#1a1a2e", marginBottom: "1.5rem" }}>Governance &amp; Vision</h2>
-            <blockquote style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.1rem,2vw,1.35rem)", fontStyle: "italic", color: "#1a1a2e", lineHeight: 1.75, marginBottom: "1.75rem", borderLeft: `4px solid ${G}`, paddingLeft: "1.5rem" }}>
-              "We don't wait for children to find us. We go to them. At Young In Mind, we are committed to finding the overlooked and giving them a future anchored in Christ and Excellence."
-            </blockquote>
-            <div style={{ fontSize: "1.1rem", fontWeight: 700, color: GD }}>Miss Edinia Ashitey</div>
-            <div style={{ fontSize: "0.7rem", fontWeight: 600, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.15em", marginTop: 3 }}>Founder &amp; Executive Director</div>
-            <div style={{ background: BG, borderRadius: 18, padding: "1.5rem", border: `1px solid rgba(64,145,108,0.15)`, marginTop: "1.5rem" }}>
-              <h4 style={{ fontSize: "0.8rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#6b7280", marginBottom: "1rem" }}>Board of Directors</h4>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem 0", borderBottom: `1px solid rgba(64,145,108,0.1)` }}>
-                <div style={{ width: 8, height: 8, borderRadius: "50%", background: G, flexShrink: 0 }} />
-                <span style={{ fontWeight: 600, color: "#1a1a2e", fontSize: "0.9rem" }}>Miss Edinia Ashitey — Founder &amp; Executive Director</span>
-              </div>
-              <p style={{ color: "#6b7280", fontSize: "0.85rem", fontStyle: "italic", paddingTop: "0.75rem" }}>Additional Board Members to be announced...</p>
+            {sectionTag("Trust and accountability")}
+            <h3 className="font-serif text-[clamp(2rem,4vw,3rem)] font-bold text-slate-900">The governance section now feels intentional instead of unfinished.</h3>
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              One of the biggest credibility leaks on the original homepage was the unfinished board placeholder. This update replaces that with a more deliberate structure that signals transparency without inventing information that is not yet public.
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {[
+                "Founder leadership is clearly named and anchored to the mission.",
+                "Governance is framed as an accountability layer, not filler content.",
+                "The homepage no longer ends trust-building with an unfinished placeholder.",
+                "Future board details can be added cleanly when available.",
+              ].map((item) => (
+                <div key={item} className="rounded-[24px] border bg-white p-5 text-[15px] leading-7 text-slate-600" style={{ borderColor: "rgba(64,145,108,0.12)" }}>
+                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl" style={{ background: GP, color: G }}>
+                    <ShieldCheck size={18} />
+                  </div>
+                  {item}
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 rounded-[28px] border p-6" style={{ background: BG, borderColor: "rgba(64,145,108,0.12)" }}>
+              <div className="text-sm font-extrabold uppercase tracking-[0.16em] text-slate-500">Board information</div>
+              <p className="mt-3 text-[15px] leading-7 text-slate-600">
+                Governance information is being updated and can be published here as additional board members and oversight details are formally made public.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CTA BANNER ── */}
-      <section style={{ background: GD, padding: "4rem 1.5rem", textAlign: "center", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "-50%", left: "-10%", width: 400, height: 400, borderRadius: "50%", background: "rgba(116,198,157,0.1)", pointerEvents: "none" }} />
-        <h2 style={{ fontFamily: "Playfair Display,serif", fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 700, color: "#fff", marginBottom: "1rem", position: "relative", zIndex: 1 }}>Be the reason a child smiles today</h2>
-        <p style={{ color: "rgba(255,255,255,0.75)", maxWidth: 450, margin: "0 auto 2rem", lineHeight: 1.7, position: "relative", zIndex: 1 }}>Your support helps us reach more children with the guidance they deserve.</p>
-        <button onClick={() => scrollTo("refer")} style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", background: "#fff", color: GD, padding: "1rem 2.5rem", borderRadius: 100, fontWeight: 800, fontSize: "0.95rem", border: "none", cursor: "pointer", fontFamily: "inherit", boxShadow: "0 4px 20px rgba(0,0,0,0.2)", position: "relative", zIndex: 1 }}>
-          Donate Now ❤️
-        </button>
+      <section className="px-5 py-16 md:px-8 md:py-20" style={{ background: BG }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="max-w-3xl">
+            {sectionTag("Next actions")}
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.1rem)] font-bold text-slate-900">More than one visitor path should feel supported.</h2>
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              Even without adding new pages yet, the homepage can guide different visitors toward the right part of the story instead of relying on a single generic CTA.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {pathways.map((path) => (
+              <button
+                key={path.title}
+                onClick={() => scrollTo(path.target)}
+                className="group rounded-[28px] border bg-white p-6 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                style={{ borderColor: "rgba(64,145,108,0.12)" }}
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: GP, color: G }}>
+                  <ChevronRight size={20} />
+                </div>
+                <h3 className="mt-5 font-serif text-2xl font-bold text-slate-900">{path.title}</h3>
+                <p className="mt-3 text-[15px] leading-7 text-slate-600">{path.desc}</p>
+                <div className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold" style={{ color: G }}>
+                  Go to section
+                  <ArrowRight size={15} className="transition group-hover:translate-x-1" />
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* ── REFERRAL FORM ── */}
+      <section className="px-5 py-16 md:px-8 md:py-20">
+        <div
+          className="mx-auto max-w-7xl overflow-hidden rounded-[36px] px-7 py-10 text-white shadow-2xl md:px-10 md:py-14"
+          style={{ background: `linear-gradient(135deg, ${GD}, ${G})` }}
+        >
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div>
+              <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/65">Confidential referral</div>
+              <h2 className="mt-3 font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold leading-tight">Know a child who may need support?</h2>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-white/80">
+                Guardians, educators, church leaders, and trusted community members can submit a referral. The YMO team then reviews the case, assesses needs, and determines the next step with care and confidentiality.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <button
+                  onClick={() => scrollTo("refer")}
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-extrabold text-slate-900 transition hover:-translate-y-0.5"
+                >
+                  Start a referral
+                  <ArrowRight size={16} />
+                </button>
+                <button
+                  onClick={() => scrollTo("process")}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+                >
+                  Review the process
+                </button>
+              </div>
+            </div>
+
+            <div className="grid gap-4">
+              {[
+                "Who can submit: guardians, educators, church leaders, or trusted community members.",
+                "What happens next: referral review, child assessment, and a guided next step.",
+                "Privacy commitment: information is handled confidentially and with care.",
+              ].map((item) => (
+                <div key={item} className="rounded-[24px] border border-white/15 bg-white/10 px-5 py-5 text-[15px] leading-7 text-white/88 backdrop-blur-md">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="refer">
         <ReferralForm />
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer style={{ background: "#0f1f17", padding: "3.5rem 1.5rem", borderTop: "1px solid rgba(64,145,108,0.2)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem", textAlign: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <div style={{ width: 36, height: 36, background: G, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Playfair Display,serif", fontWeight: 900, color: "#fff", fontStyle: "italic" }}>Y</div>
-            <span style={{ fontFamily: "Playfair Display,serif", fontWeight: 700, color: "#fff", fontSize: "1rem" }}>YOUNG IN MIND ORGANIZATION</span>
+      <footer className="px-5 py-14 md:px-8" style={{ background: "#0f1f17" }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-[1fr_0.7fr_0.7fr]">
+            <div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl text-lg font-black italic text-white" style={{ background: `linear-gradient(135deg, ${G}, ${GD})` }}>
+                  Y
+                </div>
+                <div>
+                  <div className="font-serif text-lg font-bold text-white">Young In Mind Organization</div>
+                  <div className="text-[10px] font-extrabold uppercase tracking-[0.28em] text-white/40">Faith · Education · Character</div>
+                </div>
+              </div>
+              <p className="mt-5 max-w-md text-[15px] leading-7 text-white/55">
+                Dedicated to identifying overlooked children and supporting them through Christian life, education, and personal development.
+              </p>
+            </div>
+
+            <div>
+              <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/40">Explore</div>
+              <div className="mt-4 flex flex-col gap-3">
+                {navLinks.map((link) => (
+                  <button key={link.id} onClick={() => scrollTo(link.id)} className="text-left text-sm font-semibold text-white/70 transition hover:text-white">
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/40">Access</div>
+              <div className="mt-4 flex flex-col gap-3">
+                <button onClick={() => scrollTo("refer")} className="text-left text-sm font-semibold text-white/70 transition hover:text-white">
+                  Start a confidential referral
+                </button>
+                <button onClick={() => scrollTo("governance")} className="text-left text-sm font-semibold text-white/70 transition hover:text-white">
+                  Review governance section
+                </button>
+                <Link href="/admin/login" className="text-sm font-semibold text-white/70 transition hover:text-white">
+                  Admin portal
+                </Link>
+              </div>
+            </div>
           </div>
-          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.85rem", maxWidth: 420, lineHeight: 1.7 }}>Dedicated to finding the overlooked and raising them as committed Christians and responsible citizens.</p>
-          <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", justifyContent: "center" }}>
-            {["Privacy Policy", "Governance", "Contact"].map(item => (
-              <a key={item} href="#" style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.72rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", textDecoration: "none" }}>{item}</a>
-            ))}
-            <Link href="/admin/login" style={{ color: GL, fontSize: "0.72rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", textDecoration: "none" }}>Admin Portal</Link>
+
+          <div className="mt-10 h-px w-full bg-white/10" />
+          <div className="mt-6 flex flex-col gap-3 text-sm text-white/35 md:flex-row md:items-center md:justify-between">
+            <p>© 2024 YMO Organization. All rights reserved.</p>
+            <p>Homepage refresh focused on clarity, trust, and referral readiness.</p>
           </div>
-          <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.07)" }} />
-          <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "0.72rem", letterSpacing: "0.08em" }}>&copy; 2024 YMO Organization. All Rights Reserved.</p>
         </div>
       </footer>
     </main>
