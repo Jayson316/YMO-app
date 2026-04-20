@@ -20,6 +20,7 @@ import {
   Home as HomeIcon,
   ShieldCheck,
   ChevronRight,
+  HeartHandshake,
 } from "lucide-react";
 import ReferralForm from "@/components/public/ReferralForm";
 
@@ -30,15 +31,15 @@ const GP = "#D8F3DC";
 const BG = "#F0FAF4";
 
 const navLinks = [
-  { id: "about", label: "Mission" },
+  { id: "about", label: "Who We Are" },
   { id: "pillars", label: "Our Pillars" },
   { id: "impact", label: "Impact" },
-  { id: "process", label: "Process" },
-  { id: "refer", label: "Referral" },
+  { id: "process", label: "How It Works" },
+  { id: "refer", label: "Refer a Child" },
 ];
 
 const trustStats = [
-  { value: "200+", label: "Children Supported" },
+  { value: "200+", label: "Children Helped" },
   { value: "15", label: "Communities Reached" },
   { value: "100+", label: "Sponsors" },
   { value: "24/7", label: "Mentorship" },
@@ -47,18 +48,18 @@ const trustStats = [
 const introCards = [
   {
     icon: Users,
-    title: "Who we serve",
-    desc: "Children who have been overlooked by traditional support systems and need consistent spiritual, educational, and personal guidance.",
+    title: "Who We Serve",
+    desc: "We identify children who have been overlooked by traditional support systems and need intentional guidance, care, and support.",
   },
   {
     icon: HandHeart,
-    title: "What we provide",
-    desc: "Faith-based mentorship, educational support, and character-building guidance delivered with care, structure, and accountability.",
+    title: "What We Provide",
+    desc: "We walk alongside children through education support, personal development, and faith-driven mentorship rooted in Christian values.",
   },
   {
     icon: Sparkles,
-    title: "What changes",
-    desc: "Children are supported to grow into committed Christians and responsible citizens who can lead with confidence and purpose.",
+    title: "What We Hope To Build",
+    desc: "Our goal is to help children grow into committed Christians and responsible citizens who can lead with character and purpose.",
   },
 ];
 
@@ -66,18 +67,18 @@ const pillars = [
   {
     icon: Shield,
     title: "Christian Life",
-    desc: "Scriptural literacy, prayer, discipleship, and spiritual mentorship that help children build a deep relationship with God.",
+    desc: "Nurturing a deep, committed relationship with God through scriptural literacy, prayer, and discipleship.",
   },
   {
     icon: BookOpen,
     title: "Education",
-    desc: "Tutoring, academic guidance, learning resources, and structured support that bridge gaps and strengthen long-term outcomes.",
+    desc: "Bridging academic gaps by providing resources, tutoring, and structured support for children in underserved communities.",
     featured: true,
   },
   {
     icon: Heart,
     title: "Personal Life",
-    desc: "Character formation, responsibility, ethics, and practical life skills that help children thrive in daily life and community.",
+    desc: "Character building and life skills training to develop responsible, ethical, and high-functioning citizens.",
   },
 ];
 
@@ -85,48 +86,48 @@ const processSteps = [
   {
     step: "01",
     title: "Referral",
-    desc: "A guardian, educator, church leader, or trusted community member confidentially flags a child who may need support.",
+    desc: "A child in need is identified by the community and submitted through a confidential referral process.",
     icon: ClipboardCheck,
   },
   {
     step: "02",
     title: "Assessment",
-    desc: "The YMO team reviews the child’s spiritual, academic, and personal needs to understand the right next step.",
+    desc: "The YMO team evaluates the child’s spiritual, academic, and personal needs with care and attention.",
     icon: UserCheck,
   },
   {
     step: "03",
     title: "Integration",
-    desc: "The child is enrolled into a structured support journey built around faith, education, and personal development.",
+    desc: "The child is enrolled into YMO’s three-pillar mentorship and support structure.",
     icon: Waypoints,
   },
   {
     step: "04",
     title: "Transformation",
-    desc: "Ongoing mentorship helps the child grow into a committed Christian leader and responsible citizen.",
+    desc: "Through consistent support, the child grows toward becoming a committed Christian leader and responsible citizen.",
     icon: HomeIcon,
   },
 ];
 
-const pathways = [
+const actionCards = [
   {
-    title: "Refer a child",
-    desc: "Know a child who may need support? Start a confidential referral with the information you have.",
+    title: "Refer a Child",
+    desc: "Know a child who may need support? Submit a confidential referral to the YMO assessment team.",
     target: "refer",
   },
   {
-    title: "Review the process",
-    desc: "Understand how referrals are assessed and how children move into YMO’s support structure.",
+    title: "See Our Approach",
+    desc: "Explore the three-fold commitment that guides how we support each child spiritually, academically, and personally.",
+    target: "pillars",
+  },
+  {
+    title: "Understand the Process",
+    desc: "Learn how children move from referral to assessment, integration, and transformation.",
     target: "process",
   },
   {
-    title: "See the impact",
-    desc: "Explore the outcomes and numbers the organization is already highlighting on its homepage.",
-    target: "impact",
-  },
-  {
-    title: "Read governance",
-    desc: "Learn about the vision, founder leadership, and the accountability structure being built around the mission.",
+    title: "Read Our Vision",
+    desc: "Meet the founder and understand the heart behind Young In Mind’s mission and governance.",
     target: "governance",
   },
 ];
@@ -285,10 +286,10 @@ export default function Home() {
               Faith · Education · Character
             </div>
             <h1 className="max-w-4xl font-serif text-[clamp(3rem,7vw,5.8rem)] font-black leading-[0.95] text-white">
-              Helping overlooked children grow in faith, learning, and character.
+              Transforming lives through faith, support, and opportunity.
             </h1>
             <p className="mt-6 max-w-2xl text-[17px] leading-8 text-white/80 md:text-[18px]">
-              Young In Mind identifies vulnerable children, supports their education and personal development, and walks with them through Christian values so they can become responsible leaders in society.
+              Young In Mind supports vulnerable children through education, care, and Christian values, giving them the foundation to become responsible leaders in society.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
@@ -309,7 +310,7 @@ export default function Home() {
 
             <div className="mt-8 flex flex-wrap gap-3 text-sm text-white/85">
               {[
-                "200+ children supported",
+                "200+ children helped",
                 "15 communities reached",
                 "Confidential referral process",
               ].map((item) => (
@@ -324,7 +325,7 @@ export default function Home() {
             <div className="rounded-3xl border border-white/15 bg-white/10 p-6 text-white shadow-2xl backdrop-blur-md">
               <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/65">Our mission</div>
               <p className="mt-3 text-lg font-medium leading-8 text-white/90">
-                Supporting children in the areas that shape life most deeply: spiritual growth, educational progress, and personal responsibility.
+                Finding the overlooked, walking alongside them, and helping them grow in Christian life, learning, and personal responsibility.
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -334,7 +335,7 @@ export default function Home() {
               </div>
               <div className="rounded-3xl border border-white/15 bg-white/10 p-5 text-white shadow-xl backdrop-blur-md">
                 <div className="text-3xl font-black">24/7</div>
-                <div className="mt-1 text-sm text-white/70">Mentorship mindset</div>
+                <div className="mt-1 text-sm text-white/70">Mentorship</div>
               </div>
             </div>
           </div>
@@ -378,10 +379,10 @@ export default function Home() {
           <div className="max-w-3xl">
             {sectionTag("Who we are")}
             <h2 className="font-serif text-[clamp(2rem,4vw,3.4rem)] font-bold leading-tight text-slate-900">
-              A mission-led homepage should feel clear, credible, and compassionate.
+              We are committed to reaching children who have been overlooked.
             </h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              YMO exists to identify children who have been overlooked by traditional support systems and to walk with them through faith-driven care, education, and character development.
+              YMO is a Christian organization dedicated to improving the lives of children through education, support, and faith-driven initiatives. We identify children who have been overlooked by traditional support systems and walk alongside them on their journey to becoming committed Christians and responsible citizens.
             </p>
           </div>
 
@@ -408,11 +409,11 @@ export default function Home() {
 
       <section id="pillars" className="px-5 py-16 md:px-8 md:py-20" style={{ background: BG }}>
         <div className="mx-auto max-w-7xl">
-          <div className="max-w-3xl text-center mx-auto">
+          <div className="mx-auto max-w-3xl text-center">
             {sectionTag("Our foundation")}
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">Every child is supported in three essential areas.</h2>
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">Our three-fold commitment</h2>
             <p className="mt-4 text-lg leading-8 text-slate-600">
-              The homepage should show not only what YMO believes, but also what each child tangibly receives through the program.
+              We focus on the areas that are critical to a child’s success in this life and the next.
             </p>
           </div>
 
@@ -455,10 +456,10 @@ export default function Home() {
       <section id="impact" className="px-5 py-16 md:px-8 md:py-20">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
-            {sectionTag("Impact and proof")}
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">The homepage should pair inspiration with evidence.</h2>
+            {sectionTag("Our impact")}
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">Numbers that matter</h2>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
-              These figures are already part of YMO’s public story. Surfacing them earlier and giving them stronger visual weight makes the homepage feel more established and easier to trust.
+              We believe every child deserves to be seen, supported, and guided with intention. These figures reflect the reach and consistency YMO is building through its mission.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {trustStats.map((stat) => (
@@ -474,27 +475,21 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <p className="mt-4 text-sm leading-6 text-slate-500">
-              Impact figures are presented as part of YMO’s current homepage narrative alongside its founding year of 2024 and should later be supported by periodic reporting or an annual impact summary.
-            </p>
           </div>
 
           <div className="rounded-[32px] border p-8 shadow-sm" style={{ background: BG, borderColor: "rgba(64,145,108,0.12)" }}>
             <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500 shadow-sm">
               <ShieldCheck size={16} style={{ color: G }} />
-              Why this feels stronger
+              Why this matters
             </div>
-            <h3 className="mt-6 font-serif text-3xl font-bold text-slate-900">Trust comes from structure, not only tone.</h3>
+            <h3 className="mt-6 font-serif text-3xl font-bold text-slate-900">Support should touch the whole child.</h3>
             <p className="mt-4 text-[15px] leading-7 text-slate-600">
-              Visitors should be able to answer four questions quickly: who YMO serves, what support looks like, what proof exists today, and what happens after a referral is submitted.
+              YMO’s work is built around more than one kind of need. Children are supported spiritually, academically, and personally so that progress is both meaningful and lasting.
             </p>
             <div className="mt-8 rounded-[24px] bg-white p-6 shadow-sm">
-              <div className="text-xs font-extrabold uppercase tracking-[0.18em]" style={{ color: G }}>Founder vision</div>
-              <blockquote className="mt-3 font-serif text-xl leading-9 text-slate-900">
-                “We don’t wait for children to find us. We go to them.”
-              </blockquote>
-              <p className="mt-4 text-sm leading-6 text-slate-500">
-                The revised homepage uses this kind of message best when it is reinforced by visible impact, governance, and a clear support journey.
+              <div className="text-xs font-extrabold uppercase tracking-[0.18em]" style={{ color: G }}>A living commitment</div>
+              <p className="mt-3 text-[15px] leading-7 text-slate-600">
+                From prayer and discipleship to tutoring, mentorship, and character formation, our goal is to help children grow with faith, stability, and direction.
               </p>
             </div>
           </div>
@@ -505,9 +500,9 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
             {sectionTag("How it works")}
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">A clearer intervention process reduces hesitation.</h2>
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">Our intervention process</h2>
             <p className="mt-4 text-lg leading-8 text-slate-600">
-              Referral journeys often feel sensitive. The homepage should reassure families and communities that the next step is structured, careful, and confidential.
+              Every referral is handled carefully so that children receive the right kind of support at the right time.
             </p>
           </div>
 
@@ -539,8 +534,8 @@ export default function Home() {
           >
             {[
               "All referrals are handled confidentially and reviewed with care.",
-              "Support is assessed across spiritual, academic, and personal needs.",
-              "The process is designed to help communities act early, not late.",
+              "Assessment considers spiritual, academic, and personal needs together.",
+              "The process is designed to help communities act early and wisely.",
             ].map((item) => (
               <div key={item} className="flex items-start gap-3 rounded-2xl bg-slate-50 px-4 py-4 text-sm font-medium leading-6 text-slate-700">
                 <BadgeCheck size={18} className="mt-0.5 shrink-0" style={{ color: G }} />
@@ -564,7 +559,7 @@ export default function Home() {
                 EA
               </div>
               <div className="mt-8 text-xs font-extrabold uppercase tracking-[0.24em] text-white/65">Leadership</div>
-              <h2 className="mt-3 font-serif text-4xl font-bold">Governance and vision</h2>
+              <h2 className="mt-3 font-serif text-4xl font-bold">Governance &amp; vision</h2>
               <blockquote className="mt-6 border-l-4 border-white/35 pl-5 font-serif text-2xl leading-10 text-white/95">
                 “We don’t wait for children to find us. We go to them. At Young In Mind, we are committed to finding the overlooked and giving them a future anchored in Christ and excellence.”
               </blockquote>
@@ -574,18 +569,18 @@ export default function Home() {
           </div>
 
           <div>
-            {sectionTag("Trust and accountability")}
-            <h3 className="font-serif text-[clamp(2rem,4vw,3rem)] font-bold text-slate-900">The governance section now feels intentional instead of unfinished.</h3>
+            {sectionTag("Leadership")}
+            <h3 className="font-serif text-[clamp(2rem,4vw,3rem)] font-bold text-slate-900">A mission led with conviction and care.</h3>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              One of the biggest credibility leaks on the original homepage was the unfinished board placeholder. This update replaces that with a more deliberate structure that signals transparency without inventing information that is not yet public.
+              Young In Mind is led by Miss Edinia Ashitey, Founder and Executive Director. The organization is built on a vision to identify overlooked children and give them a future grounded in Christ, excellence, and responsible citizenship.
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {[
-                "Founder leadership is clearly named and anchored to the mission.",
-                "Governance is framed as an accountability layer, not filler content.",
-                "The homepage no longer ends trust-building with an unfinished placeholder.",
-                "Future board details can be added cleanly when available.",
+                "Faith-driven leadership rooted in service and responsibility.",
+                "A focus on going to children who may otherwise be missed.",
+                "A commitment to support children spiritually, academically, and personally.",
+                "Governance information can expand here as the organization continues to grow.",
               ].map((item) => (
                 <div key={item} className="rounded-[24px] border bg-white p-5 text-[15px] leading-7 text-slate-600" style={{ borderColor: "rgba(64,145,108,0.12)" }}>
                   <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl" style={{ background: GP, color: G }}>
@@ -595,13 +590,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-
-            <div className="mt-6 rounded-[28px] border p-6" style={{ background: BG, borderColor: "rgba(64,145,108,0.12)" }}>
-              <div className="text-sm font-extrabold uppercase tracking-[0.16em] text-slate-500">Board information</div>
-              <p className="mt-3 text-[15px] leading-7 text-slate-600">
-                Governance information is being updated and can be published here as additional board members and oversight details are formally made public.
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -609,26 +597,26 @@ export default function Home() {
       <section className="px-5 py-16 md:px-8 md:py-20" style={{ background: BG }}>
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
-            {sectionTag("Next actions")}
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.1rem)] font-bold text-slate-900">More than one visitor path should feel supported.</h2>
+            {sectionTag("Get involved")}
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.1rem)] font-bold text-slate-900">Find the next right step.</h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              Even without adding new pages yet, the homepage can guide different visitors toward the right part of the story instead of relying on a single generic CTA.
+              Whether you are identifying a child in need, learning about our approach, or exploring the mission — you are in the right place.
             </p>
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {pathways.map((path) => (
+            {actionCards.map((card) => (
               <button
-                key={path.title}
-                onClick={() => scrollTo(path.target)}
+                key={card.title}
+                onClick={() => scrollTo(card.target)}
                 className="group rounded-[28px] border bg-white p-6 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                 style={{ borderColor: "rgba(64,145,108,0.12)" }}
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: GP, color: G }}>
                   <ChevronRight size={20} />
                 </div>
-                <h3 className="mt-5 font-serif text-2xl font-bold text-slate-900">{path.title}</h3>
-                <p className="mt-3 text-[15px] leading-7 text-slate-600">{path.desc}</p>
+                <h3 className="mt-5 font-serif text-2xl font-bold text-slate-900">{card.title}</h3>
+                <p className="mt-3 text-[15px] leading-7 text-slate-600">{card.desc}</p>
                 <div className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold" style={{ color: G }}>
                   Go to section
                   <ArrowRight size={15} className="transition group-hover:translate-x-1" />
@@ -647,9 +635,9 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
               <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/65">Confidential referral</div>
-              <h2 className="mt-3 font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold leading-tight">Know a child who may need support?</h2>
+              <h2 className="mt-3 font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold leading-tight">Be the reason a child is seen.</h2>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-white/80">
-                Guardians, educators, church leaders, and trusted community members can submit a referral. The YMO team then reviews the case, assesses needs, and determines the next step with care and confidentiality.
+                Your action can help a child receive assessment, guidance, and support. If you know a child who may need help, submit a referral and our team will review it carefully.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <button
@@ -670,9 +658,9 @@ export default function Home() {
 
             <div className="grid gap-4">
               {[
-                "Who can submit: guardians, educators, church leaders, or trusted community members.",
-                "What happens next: referral review, child assessment, and a guided next step.",
-                "Privacy commitment: information is handled confidentially and with care.",
+                "Who can submit: community members, guardians, educators, and trusted leaders.",
+                "What happens next: referral review, assessment, and integration into the support journey where appropriate.",
+                "How it is handled: all data is confidential and treated with care.",
               ].map((item) => (
                 <div key={item} className="rounded-[24px] border border-white/15 bg-white/10 px-5 py-5 text-[15px] leading-7 text-white/88 backdrop-blur-md">
                   {item}
@@ -701,7 +689,7 @@ export default function Home() {
                 </div>
               </div>
               <p className="mt-5 max-w-md text-[15px] leading-7 text-white/55">
-                Dedicated to identifying overlooked children and supporting them through Christian life, education, and personal development.
+                Dedicated to finding the overlooked and raising them as committed Christians and responsible citizens.
               </p>
             </div>
 
@@ -717,13 +705,13 @@ export default function Home() {
             </div>
 
             <div>
-              <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/40">Access</div>
+              <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/40">Quick actions</div>
               <div className="mt-4 flex flex-col gap-3">
                 <button onClick={() => scrollTo("refer")} className="text-left text-sm font-semibold text-white/70 transition hover:text-white">
                   Start a confidential referral
                 </button>
-                <button onClick={() => scrollTo("governance")} className="text-left text-sm font-semibold text-white/70 transition hover:text-white">
-                  Review governance section
+                <button onClick={() => scrollTo("process")} className="text-left text-sm font-semibold text-white/70 transition hover:text-white">
+                  See how it works
                 </button>
                 <Link href="/admin/login" className="text-sm font-semibold text-white/70 transition hover:text-white">
                   Admin portal
@@ -735,7 +723,7 @@ export default function Home() {
           <div className="mt-10 h-px w-full bg-white/10" />
           <div className="mt-6 flex flex-col gap-3 text-sm text-white/35 md:flex-row md:items-center md:justify-between">
             <p>© 2024 YMO Organization. All rights reserved.</p>
-            <p>Homepage refresh focused on clarity, trust, and referral readiness.</p>
+            <p>Supporting vulnerable children through faith, education, and personal development.</p>
           </div>
         </div>
       </footer>
