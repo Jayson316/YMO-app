@@ -1,9 +1,11 @@
-import AdminGuard from "@/components/AdminGuard";
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AdminPage() {
-  return (
-    <AdminGuard>
-      <div style={{ padding: "2rem", fontFamily: "inherit" }}>Welcome to Admin Dashboard</div>
-    </AdminGuard>
-  );
+  const router = useRouter();
+  useEffect(() => {
+    router.replace("/admin/dashboard");
+  }, [router]);
+  return null;
 }
