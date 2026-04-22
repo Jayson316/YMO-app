@@ -22,7 +22,7 @@ export default function DashboardPage() {
 
   const pending = referrals.filter(r => r.status === "pending").length;
   const active = children.filter(c => c.status === "active").length;
-  const thisMonth = referrals.filter(r => r.createdAt?.toDate?.()?.getMonth?.() === now.getMonth()).length;
+  const thisMonth = referrals.filter(r => new Date(r.createdAt as any).getMonth() === now.getMonth()).length;
   const hour = now.getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
