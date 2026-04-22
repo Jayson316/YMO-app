@@ -142,7 +142,7 @@ export default function DashboardPage() {
                   <div style={{ fontWeight: 700, color: "#0f172a", fontSize: "0.875rem" }}>{c.name}</div>
                   <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Age {c.age} · {c.community || "YMO"}</div>
                 </div>
-                <div style={{ display: "flex", gap: "4px" }}>{[c.progress?.christianLife, c.progress?.education, c.progress?.personalLife].map((p, i) => (<div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: (p ?? 0) > 0 ? G : "#e2e8f0" }} />))}</div>
+                <div style={{ display: "flex", gap: "4px" }}>{[c.progress?.christianLife, c.progress?.education, c.progress?.personalLife].map((p, i) => (<div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: (p && p !== "not_started" ? G : "#e2e8f0" }} />))}</div>
               </Link>
             ))}
           </div>
