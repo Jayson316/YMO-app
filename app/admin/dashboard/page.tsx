@@ -34,10 +34,10 @@ export default function DashboardPage() {
   ];
 
   const pillars = [
-    { label: "Christian Life", icon: Shield, color: G, bg: GP, count: children.filter(c => (c.christianLifeProgress ?? 0) > 0).length },
-    { label: "Education", icon: BookOpen, color: "#3b82f6", bg: "#dbeafe", count: children.filter(c => (c.educationProgress ?? 0) > 0).length },
-    { label: "Personal Life", icon: Heart, color: "#ec4899", bg: "#fce7f3", count: children.filter(c => (c.personalLifeProgress ?? 0) > 0).length },
-  ];
+  { label: "Christian Life", icon: Shield, color: G, bg: GP, count: children.filter(c => c.progress?.christianLife && c.progress.christianLife !== "not_started").length },
+  { label: "Education", icon: BookOpen, color: "#3b82f6", bg: "#dbeafe", count: children.filter(c => c.progress?.education && c.progress.education !== "not_started").length },
+  { label: "Personal Life", icon: Heart, color: "#ec4899", bg: "#fce7f3", count: children.filter(c => c.progress?.personalLife && c.progress.personalLife !== "not_started").length },
+];
 
   if (loading) return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "60vh" }}>
@@ -142,7 +142,7 @@ export default function DashboardPage() {
                   <div style={{ fontWeight: 700, color: "#0f172a", fontSize: "0.875rem" }}>{c.name}</div>
                   <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Age {c.age} · {c.community || "YMO"}</div>
                 </div>
-                <div style={{ display: "flex", gap: "4px" }}>{[c.christianLifeProgress, c.educationProgress, c.personalLifeProgress].map((p, i) => (<div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: (p ?? 0) > 0 ? G : "#e2e8f0" }} />))}</div>
+                <div style={{ display: "flex", gap: "4px" }}>{[c.progress?.christianLife, c.progress?.education, c.progress?.personalLife].map((p, i) => (<div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: (p ?? 0) > 0 ? G : "#e2e8f0" }} />))}</div>
               </Link>
             ))}
           </div>
