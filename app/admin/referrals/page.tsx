@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getReferrals, updateReferral, deleteReferral, addChild } from "@/lib/db";
+import { getReferrals, updateReferralStatus as updateReferral, deleteReferral, addChild } from "@/lib/db";
 import type { Referral } from "@/types";
 import { FileText, Clock, CheckCircle, XCircle, UserPlus, Trash2, Eye, X, Loader2, Search, Filter } from "lucide-react";
 
