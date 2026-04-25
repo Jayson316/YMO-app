@@ -127,7 +127,7 @@ const actionCards = [
   },
   {
     title: "Read Our Vision",
-    desc: "Meet the founder and understand the heart behind Young In Mind’s mission and governance.",
+    desc: "Meet the Executive Director and understand the heart behind Young In Mind’s mission and governance.",
     target: "governance",
   },
 ];
@@ -330,7 +330,7 @@ export default function Home() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-3xl border border-white/15 bg-white/10 p-5 text-white shadow-xl backdrop-blur-md">
-                <div className="text-3xl font-black">2024</div>
+                <div className="text-3xl font-black">2025</div>
                 <div className="mt-1 text-sm text-white/70">Founded</div>
               </div>
               <div className="rounded-3xl border border-white/15 bg-white/10 p-5 text-white shadow-xl backdrop-blur-md">
@@ -564,7 +564,7 @@ export default function Home() {
                 “We don’t wait for children to find us. We go to them. At Young In Mind, we are committed to finding the overlooked and giving them a future anchored in Christ and excellence.”
               </blockquote>
               <div className="mt-6 text-xl font-bold">Miss Edinia Ashitey</div>
-              <div className="mt-1 text-sm uppercase tracking-[0.18em] text-white/70">Founder &amp; Executive Director</div>
+              <div className="mt-1 text-sm uppercase tracking-[0.18em] text-white/70">Executive Director</div>
             </div>
           </div>
 
@@ -572,7 +572,7 @@ export default function Home() {
             {sectionTag("Leadership")}
             <h3 className="font-serif text-[clamp(2rem,4vw,3rem)] font-bold text-slate-900">A mission led with conviction and care.</h3>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              Young In Mind is led by Miss Edinia Ashitey, Founder and Executive Director. The organization is built on a vision to identify overlooked children and give them a future grounded in Christ, excellence, and responsible citizenship.
+              Young In Mind is led by Miss Edinia Ashitey, Executive Director. The organization is built on a vision to identify overlooked children and give them a future grounded in Christ, excellence, and responsible citizenship.
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -722,7 +722,7 @@ export default function Home() {
 
           <div className="mt-10 h-px w-full bg-white/10" />
           <div className="mt-6 flex flex-col gap-3 text-sm text-white/35 md:flex-row md:items-center md:justify-between">
-            <p>© 2024 YMO Organization. All rights reserved.</p>
+            <p>© 2025 YMO Organization. All rights reserved.</p>
             <p>Supporting vulnerable children through faith, education, and personal development.</p>
           </div>
         </div>
