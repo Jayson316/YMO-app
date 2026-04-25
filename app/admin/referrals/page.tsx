@@ -37,7 +37,7 @@ export default function ReferralsPage() {
   const handleEnroll = async (r: Referral) => {
     setEnrolling(true);
     try {
-      await addChild({ name: r.childName || "Unknown", age: r.childAge || 0, gender: "male", community: "", referralId: r.id, concern: r.concern, status: "active", progress: { christianLife: "not_started", education: "not_started", personalLife: "not_started", notes: "", lastUpdated: new Date().toISOString() } });
+      await addChild({ name: r.childName || "Unknown", age: r.childAge || 0, gender: "male", community: "", referralId: r.id, concern: r.concern, enrolledDate: new Date().toISOString(), status: "active", progress: { christianLife: "not_started", education: "not_started", personalLife: "not_started", notes: "", lastUpdated: new Date().toISOString() } });
       await updateReferralStatus(r.id, "enrolled");
       setReferrals(p => p.map(x => x.id === r.id ? { ...x, status: "enrolled" } : x));
       setSelected(null);
