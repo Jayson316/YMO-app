@@ -1,102 +1,166 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getChildren, deleteChild } from "@/lib/db";
+import { getChildren } from "@/lib/db";
 import type { Child } from "@/types";
 import Link from "next/link";
-import { ArrowRight, Trash2, Search, Users, Loader2 } from "lucide-react";
-
-const PROGRESS_DOT: Record<string, string> = {
-  not_started: "#d1d5db", in_progress: "#f59e0b", progressing: "#3b82f6", completed: "#10b981",
-};
+import { Users, Search, ArrowRight, Loader2, Shield, BookOpen, Heart, UserCheck, UserX, GraduationCap } from "lucide-react";
 
 export default function ChildrenPage() {
   const [children, setChildren] = useState<Child[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | Child["status"]>("all");
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => { getChildren().then(c => { setChildren(c); setLoading(false); }); }, []);
 
-  const handleDelete = async (id: string, name: string) => {
-    if (!confirm(`Remove ${name} from YMO records?`)) return;
-    await deleteChild(id); setChildren(prev => prev.filter(c => c.id !== id));
-  };
-
   const filtered = children.filter(c => {
-    const ms = c.name.toLowerCase().includes(search.toLowerCase()) || c.community.toLowerCase().includes(search.toLowerCase());
-    const mf = statusFilter === "all" || c.status === statusFilter;
-    return ms && mf;
+    const matchSearch = c.name.toLowerCase().includes(search.toLowerCase()) || c.community?.toLowerCase().includes(search.toLowerCase());
+    const matchFilter = filter === "all" || c.status === filter;
+    return matchSearch && matchFilter;
   });
 
-  const statusBadge = (s: Child["status"]) => ({
-    active: { bg: "#ecfdf5", color: "#059669" },
-    graduated: { bg: "#eff6ff", color: "#2563eb" },
-    inactive: { bg: "#f1f5f9", color: "#64748b" },
-  })[s];
+  const counts = {
+    all: children.length,
+    active: children.filter(c => c.status === "active").length,
+    graduated: children.filter(c => c.status === "graduated").length,
+    inactive: children.filter(c => c.status === "inactive").length,
+  };
 
-  if (loading) return <div style={{ display: "flex", justifyContent: "center", padding: "4rem" }}><Loader2 size={28} className="animate-spin" style={{ color: "#C9A84C" }} /></div>;
+  const pillarColor = (val: string | undefined) => {
+    if (!val || val === "not_started") return "#e2e8f0";
+    if (val === "in_progress") return "#f59e0b";
+    if (val === "progressing") return "#3b82f6";
+    if (val === "completed") return "#40916C";
+    return "#e2e8f0";
+  };
+
+  const statusConfig: Record<string, { color: string; bg: string; icon: any }> = {
+    active: { color: "#065f46", bg: "#d1fae5", icon: UserCheck },
+    graduated: { color: "#1e40af", bg: "#dbeafe", icon: GraduationCap },
+    inactive: { color: "#6b7280", bg: "#f3f4f6", icon: UserX },
+  };
+
+  if (loading) return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "60vh" }}>
+      <Loader2 size={28} style={{ color: "#3b82f6", animation: "spin 1s linear infinite" }} />
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
 
   return (
-    <div style={{ maxWidth: 1000 }}>
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h2 style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "1.8rem", fontWeight: 700, color: "#0A0F1E" }}>Children</h2>
-        <p style={{ color: "#94a3b8", fontSize: "0.85rem" }}>{children.filter(c => c.status === "active").length} active · {children.length} total</p>
+    <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+
+      {/* Header */}
+      <div style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #3b82f6)", borderRadius: 24, padding: "2rem 2.5rem", marginBottom: "1.5rem", position: "relative", overflow: "hidden", boxShadow: "0 20px 60px rgba(29,78,216,0.3)" }}>
+        <div style={{ position: "absolute", top: -30, right: -30, width: 160, height: 160, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Users size={20} color="#fff" />
+            </div>
+            <div>
+              <h1 style={{ fontFamily: "Playfair Display,serif", fontSize: "1.6rem", fontWeight: 700, color: "#fff", lineHeight: 1 }}>Children</h1>
+              <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.6)", marginTop: 3 }}>Manage enrolled children and track their progress</p>
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: "2rem", marginTop: "1.25rem", flexWrap: "wrap" }}>
+            {[{ label: "Total", value: counts.all }, { label: "Active", value: counts.active }, { label: "Graduated", value: counts.graduated }].map(s => (
+              <div key={s.label}>
+                <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#fff" }}>{s.value}</div>
+                <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.55)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em" }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
-        <div style={{ position: "relative", flex: 1, minWidth: 200 }}>
-          <Search size={15} style={{ position: "absolute", left: "1rem", top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search name or community..."
-            style={{ width: "100%", paddingLeft: "2.5rem", paddingRight: "1rem", paddingTop: "0.7rem", paddingBottom: "0.7rem", background: "#fff", border: "1px solid #e8e0d4", borderRadius: 10, fontSize: "0.9rem", outline: "none", fontFamily: "DM Sans, sans-serif" }} />
-        </div>
-        {(["all", "active", "graduated", "inactive"] as const).map(f => (
-          <button key={f} onClick={() => setStatusFilter(f)} style={{
-            padding: "0.5rem 1rem", borderRadius: 100, fontWeight: 600, fontSize: "0.75rem",
-            textTransform: "capitalize", cursor: "pointer", border: "1px solid",
-            background: statusFilter === f ? "#0A0F1E" : "#fff",
-            color: statusFilter === f ? "#fff" : "#64748b",
-            borderColor: statusFilter === f ? "#0A0F1E" : "#e8e0d4",
-          }}>{f}</button>
+      {/* Pillar legend */}
+      <div style={{ background: "#fff", borderRadius: 16, padding: "1rem 1.5rem", marginBottom: "1.25rem", border: "1px solid #f1f5f9", display: "flex", gap: "1.5rem", flexWrap: "wrap", alignItems: "center" }}>
+        <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em" }}>Pillar Status:</span>
+        {[{ color: "#e2e8f0", label: "Not started" }, { color: "#f59e0b", label: "In progress" }, { color: "#3b82f6", label: "Progressing" }, { color: "#40916C", label: "Completed" }].map(l => (
+          <div key={l.label} style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+            <div style={{ width: 10, height: 10, borderRadius: "50%", background: l.color }} />
+            <span style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 600 }}>{l.label}</span>
+          </div>
         ))}
       </div>
 
+      {/* Filters + Search */}
+      <div style={{ display: "flex", gap: "0.75rem", marginBottom: "1.25rem", flexWrap: "wrap" }}>
+        <div style={{ position: "relative", flex: 1, minWidth: 200 }}>
+          <Search size={15} style={{ position: "absolute", left: "1rem", top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by name or community..."
+            style={{ width: "100%", paddingLeft: "2.5rem", paddingRight: "1rem", paddingTop: "0.8rem", paddingBottom: "0.8rem", background: "#fff", border: "1.5px solid #e2e8f0", borderRadius: 12, fontSize: "0.9rem", outline: "none", fontFamily: "inherit" }}
+            onFocus={e => e.currentTarget.style.borderColor = "#3b82f6"}
+            onBlur={e => e.currentTarget.style.borderColor = "#e2e8f0"} />
+        </div>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          {["all", "active", "graduated", "inactive"].map(f => (
+            <button key={f} onClick={() => setFilter(f)} style={{
+              padding: "0.5rem 1rem", borderRadius: 100, fontWeight: 700, fontSize: "0.8rem",
+              border: "none", cursor: "pointer", fontFamily: "inherit", transition: "all .2s",
+              background: filter === f ? "#3b82f6" : "#fff",
+              color: filter === f ? "#fff" : "#64748b",
+              boxShadow: filter === f ? "0 4px 12px rgba(59,130,246,0.3)" : "0 1px 4px rgba(0,0,0,0.06)",
+            }}>
+              {f.charAt(0).toUpperCase() + f.slice(1)} ({counts[f as keyof typeof counts]})
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Children Grid */}
       {filtered.length === 0 ? (
-        <div style={{ background: "#fff", borderRadius: 20, border: "1px solid #e8e0d4", padding: "5rem", textAlign: "center" }}>
-          <Users size={48} style={{ color: "#e8e0d4", margin: "0 auto 1rem" }} />
-          <p style={{ fontWeight: 600, color: "#94a3b8" }}>No children found</p>
-          <p style={{ fontSize: "0.85rem", color: "#cbd5e1", marginTop: "0.35rem" }}>Enroll children through the Referrals page.</p>
+        <div style={{ background: "#fff", borderRadius: 20, border: "1px solid #f1f5f9", padding: "5rem", textAlign: "center" }}>
+          <div style={{ width: 64, height: 64, borderRadius: 18, background: "#dbeafe", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem" }}>
+            <Users size={28} style={{ color: "#3b82f6" }} />
+          </div>
+          <p style={{ fontWeight: 700, color: "#64748b" }}>No children found</p>
+          <p style={{ fontSize: "0.85rem", color: "#94a3b8", marginTop: "0.35rem" }}>Enroll children from the Referrals page</p>
         </div>
       ) : (
-        <div style={{ background: "#fff", borderRadius: 20, border: "1px solid #e8e0d4", overflow: "hidden" }}>
-          {filtered.map(c => (
-            <div key={c.id} style={{ display: "flex", alignItems: "center", gap: "1rem", padding: "1rem 1.5rem", borderBottom: "1px solid #f9f6f0" }}>
-              <div style={{
-                width: 44, height: 44, background: "linear-gradient(135deg, #C9A84C, #F0D080)",
-                borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center",
-                fontFamily: "Cormorant Garamond, serif", fontWeight: 700, fontSize: "1.1rem",
-                color: "#0A0F1E", flexShrink: 0,
-              }}>{c.name[0]}</div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.25rem" }}>
-                  <span style={{ fontWeight: 600, color: "#0A0F1E" }}>{c.name}</span>
-                  <span style={{ fontSize: "0.6rem", fontWeight: 700, padding: "0.2rem 0.6rem", borderRadius: 100, textTransform: "uppercase", letterSpacing: "0.08em", background: statusBadge(c.status)?.bg, color: statusBadge(c.status)?.color }}>{c.status}</span>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: "1rem" }}>
+          {filtered.map(c => {
+            const sc = statusConfig[c.status] || statusConfig.active;
+            return (
+              <Link key={c.id} href={"/admin/children/" + c.id} style={{ background: "#fff", borderRadius: 20, border: "1px solid #f1f5f9", padding: "1.5rem", textDecoration: "none", display: "block", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", transition: "all .25s" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 40px rgba(0,0,0,0.1)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(0,0,0,0.04)"; }}>
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "1.25rem" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                    <div style={{ width: 48, height: 48, borderRadius: 14, background: "#dbeafe", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Playfair Display,serif", fontWeight: 700, fontSize: "1.2rem", color: "#1d4ed8", flexShrink: 0 }}>
+                      {c.name[0].toUpperCase()}
+                    </div>
+                    <div>
+                      <div style={{ fontWeight: 700, color: "#0f172a", fontSize: "1rem" }}>{c.name}</div>
+                      <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Age {c.age} · {c.gender}</div>
+                    </div>
+                  </div>
+                  <span style={{ padding: "0.25rem 0.65rem", borderRadius: 100, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", background: sc.bg, color: sc.color }}>{c.status}</span>
                 </div>
-                <div style={{ fontSize: "0.75rem", color: "#94a3b8", marginBottom: "0.35rem" }}>Age {c.age} · {c.gender} · {c.community}</div>
-                <div style={{ display: "flex", gap: "0.75rem" }}>
-                  {(["christianLife", "education", "personalLife"] as const).map(p => (
-                    <div key={p} style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
-                      <div style={{ width: 8, height: 8, borderRadius: "50%", background: PROGRESS_DOT[c.progress?.[p] ?? "not_started"] }} />
-                      <span style={{ fontSize: "0.6rem", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.08em" }}>{p === "christianLife" ? "Faith" : p === "personalLife" ? "Personal" : "Edu"}</span>
+
+                {c.community && <div style={{ fontSize: "0.8rem", color: "#64748b", marginBottom: "1rem", background: "#f8fafc", padding: "0.5rem 0.75rem", borderRadius: 8 }}>📍 {c.community}</div>}
+
+                <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+                  {[
+                    { label: "CL", value: c.progress?.christianLife, icon: Shield, color: "#40916C" },
+                    { label: "ED", value: c.progress?.education, icon: BookOpen, color: "#3b82f6" },
+                    { label: "PL", value: c.progress?.personalLife, icon: Heart, color: "#ec4899" },
+                  ].map(p => (
+                    <div key={p.label} style={{ flex: 1, background: "#f8fafc", borderRadius: 10, padding: "0.6rem 0.5rem", textAlign: "center", border: "1.5px solid " + pillarColor(p.value) }}>
+                      <p.icon size={14} style={{ color: pillarColor(p.value), display: "block", margin: "0 auto 3px" }} />
+                      <div style={{ fontSize: "0.6rem", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase" }}>{p.label}</div>
                     </div>
                   ))}
                 </div>
-              </div>
-              <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0 }}>
-                <Link href={`/admin/children/${c.id}`} style={{ padding: "0.5rem", background: "#f9f6f0", borderRadius: 8, color: "#64748b", display: "flex" }}><ArrowRight size={15} /></Link>
-                <button onClick={() => handleDelete(c.id, c.name)} style={{ padding: "0.5rem", background: "#fef2f2", border: "none", borderRadius: 8, cursor: "pointer", color: "#ef4444", display: "flex" }}><Trash2 size={15} /></button>
-              </div>
-            </div>
-          ))}
+
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>{c.concern || "No concern noted"}</span>
+                  <ArrowRight size={15} style={{ color: "#94a3b8" }} />
+                </div>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>
