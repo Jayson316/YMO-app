@@ -713,7 +713,8 @@ export default function Home() {
                 <button onClick={() => scrollTo("process")} className="text-left text-sm font-semibold text-white/70 transition hover:text-white">
                   See how it works
                 </button>
-                <Link href="/admin/login" className="text-sm font-semibold text-white/70 transition hover:text-white">
+                <ThemeToggle />
+            <Link href="/admin/login" className="text-sm font-semibold text-white/70 transition hover:text-white">
                   Admin portal
                 </Link>
               </div>
