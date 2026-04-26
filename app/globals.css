@@ -26,3 +26,9 @@ body {
 h1, h2, h3, h4 {
   font-family: 'Playfair Display', Georgia, serif;
 }
+
+[data-theme="dark"] { color-scheme: dark; }
+[data-theme="dark"] body { background: #0a0f0d !important; color: #f0faf4 !important; }
+[data-theme="dark"] nav { background: rgba(10,15,13,0.97) !important; border-bottom-color: rgba(82,183,136,0.15) !important; }
+[data-theme="dark"] footer { background: #060c08 !important; }
+[data-theme="dark"] aside { background: #060c08 !important; }
