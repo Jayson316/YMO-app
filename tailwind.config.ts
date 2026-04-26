@@ -1,24 +1,30 @@
 import type { Config } from "tailwindcss";
+
 const config: Config = {
+  darkMode: "class",
   content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        navy: "#0A0F1E",
-        gold: "#C9A84C",
-        "gold-light": "#F0D080",
-        cream: "#F9F6F0",
-        slate: "#1E2A3A",
+        green: {
+          DEFAULT: "#40916C",
+          dark: "#2D6A4F",
+          light: "#74C69D",
+          pale: "#D8F3DC",
+          bg: "#F0FAF4",
+        },
       },
       fontFamily: {
-        display: ["Georgia", "Cambria", "serif"],
-        body: ["'Trebuchet MS'", "Helvetica", "sans-serif"],
+        serif: ["Playfair Display", "Georgia", "serif"],
+        sans: ["Plus Jakarta Sans", "DM Sans", "system-ui", "sans-serif"],
       },
     },
   },
   plugins: [],
 };
+
 export default config;
