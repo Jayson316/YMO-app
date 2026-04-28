@@ -91,13 +91,38 @@ export default function Home() {
           <p className="text-lg text-white/80 max-w-xl leading-relaxed mb-8">
             Supporting vulnerable children through education, care, and Christian values.
           </p>
-          <div className="flex gap-4 flex-wrap">
+          <div className="flex gap-4 flex-wrap mb-10">
             <button onClick={() => scrollTo("refer")} className="inline-flex items-center gap-2 bg-white text-green-700 font-black text-sm px-7 py-4 rounded-xl shadow-xl hover:-translate-y-0.5 transition-all">
               Refer a Child <ArrowRight size={16} />
             </button>
             <button onClick={() => scrollTo("about")} className="inline-flex items-center gap-2 border-2 border-white/60 hover:border-white text-white font-bold text-sm px-7 py-4 rounded-xl hover:bg-white/10 transition-all">
               Learn More
             </button>
+          </div>
+          <div className="flex flex-wrap gap-3 mb-10">
+            {[
+              "200+ children helped",
+              "15 communities reached",
+              "Confidential referral process",
+            ].map((tag) => (
+              <span key={tag} className="bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold px-4 py-2 rounded-full">
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5">
+              <div className="text-xs font-bold text-green-300 uppercase tracking-widest mb-1">Our Mission</div>
+              <p className="text-white/80 text-sm leading-relaxed">Finding the overlooked, walking alongside them, and helping them grow in Christian life, learning, and personal responsibility.</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 flex flex-col justify-center">
+              <div className="font-serif text-4xl font-black text-white leading-none">2025</div>
+              <div className="text-xs font-bold text-green-300 uppercase tracking-widest mt-1">Founded</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 flex flex-col justify-center">
+              <div className="font-serif text-4xl font-black text-white leading-none">24/7</div>
+              <div className="text-xs font-bold text-green-300 uppercase tracking-widest mt-1">Mentorship</div>
+            </div>
           </div>
         </div>
         <button onClick={() => scrollTo("about")} className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-white/40 hover:text-white/70 transition-colors cursor-pointer">
