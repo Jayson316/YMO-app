@@ -1,35 +1,9 @@
 "use client";
-
-import { ThemeToggle } from "@/components/ThemeToggle";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  Menu,
-  X,
-  ArrowRight,
-  ChevronDown,
-  Shield,
-  BookOpen,
-  Heart,
-  BadgeCheck,
-  Users,
-  HandHeart,
-  Sparkles,
-  ClipboardCheck,
-  UserCheck,
-  Waypoints,
-  Home as HomeIcon,
-  ShieldCheck,
-  ChevronRight,
-  HeartHandshake,
-} from "lucide-react";
+import { Menu, X, ArrowRight, ChevronDown, Shield, BookOpen, Heart, Moon, Sun } from "lucide-react";
+import { useTheme } from "@/lib/ThemeContext";
 import ReferralForm from "@/components/public/ReferralForm";
-
-const G = "#40916C";
-const GD = "#2D6A4F";
-const GL = "#74C69D";
-const GP = "#D8F3DC";
-const BG = "#F0FAF4";
 
 const navLinks = [
   { id: "about", label: "Who We Are" },
@@ -39,103 +13,10 @@ const navLinks = [
   { id: "refer", label: "Refer a Child" },
 ];
 
-const trustStats = [
-  { value: "200+", label: "Children Helped" },
-  { value: "15", label: "Communities Reached" },
-  { value: "100+", label: "Sponsors" },
-  { value: "24/7", label: "Mentorship" },
-];
-
-const introCards = [
-  {
-    icon: Users,
-    title: "Who We Serve",
-    desc: "We identify children who have been overlooked by traditional support systems and need intentional guidance, care, and support.",
-  },
-  {
-    icon: HandHeart,
-    title: "What We Provide",
-    desc: "We walk alongside children through education support, personal development, and faith-driven mentorship rooted in Christian values.",
-  },
-  {
-    icon: Sparkles,
-    title: "What We Hope To Build",
-    desc: "Our goal is to help children grow into committed Christians and responsible citizens who can lead with character and purpose.",
-  },
-];
-
-const pillars = [
-  {
-    icon: Shield,
-    title: "Christian Life",
-    desc: "Nurturing a deep, committed relationship with God through scriptural literacy, prayer, and discipleship.",
-  },
-  {
-    icon: BookOpen,
-    title: "Education",
-    desc: "Bridging academic gaps by providing resources, tutoring, and structured support for children in underserved communities.",
-    featured: true,
-  },
-  {
-    icon: Heart,
-    title: "Personal Life",
-    desc: "Character building and life skills training to develop responsible, ethical, and high-functioning citizens.",
-  },
-];
-
-const processSteps = [
-  {
-    step: "01",
-    title: "Referral",
-    desc: "A child in need is identified by the community and submitted through a confidential referral process.",
-    icon: ClipboardCheck,
-  },
-  {
-    step: "02",
-    title: "Assessment",
-    desc: "The YMO team evaluates the child’s spiritual, academic, and personal needs with care and attention.",
-    icon: UserCheck,
-  },
-  {
-    step: "03",
-    title: "Integration",
-    desc: "The child is enrolled into YMO’s three-pillar mentorship and support structure.",
-    icon: Waypoints,
-  },
-  {
-    step: "04",
-    title: "Transformation",
-    desc: "Through consistent support, the child grows toward becoming a committed Christian leader and responsible citizen.",
-    icon: HomeIcon,
-  },
-];
-
-const actionCards = [
-  {
-    title: "Refer a Child",
-    desc: "Know a child who may need support? Submit a confidential referral to the YMO assessment team.",
-    target: "refer",
-  },
-  {
-    title: "See Our Approach",
-    desc: "Explore the three-fold commitment that guides how we support each child spiritually, academically, and personally.",
-    target: "pillars",
-  },
-  {
-    title: "Understand the Process",
-    desc: "Learn how children move from referral to assessment, integration, and transformation.",
-    target: "process",
-  },
-  {
-    title: "Read Our Vision",
-    desc: "Meet the Executive Director and understand the heart behind Young In Mind’s mission and governance.",
-    target: "governance",
-  },
-];
-
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -146,587 +27,220 @@ export default function Home() {
   const scrollTo = (id: string) => {
     setMenuOpen(false);
     const el = document.getElementById(id);
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 84;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 75, behavior: "smooth" });
   };
 
-  const sectionTag = (label: string) => (
-    <div
-      className="mb-3 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.24em]"
-      style={{ color: G, borderColor: "rgba(64,145,108,0.18)", background: "rgba(216,243,220,0.45)" }}
-    >
-      <span className="h-1.5 w-1.5 rounded-full" style={{ background: G }} />
-      {label}
-    </div>
-  );
-
   return (
-    <main className="bg-white text-slate-900">
-      <nav
-        className="fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl"
-        style={{
-          background: "rgba(255,255,255,0.94)",
-          borderColor: "rgba(64,145,108,0.14)",
-          boxShadow: scrolled ? "0 10px 30px rgba(15,23,42,0.08)" : "none",
-        }}
-      >
-        <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 md:px-8">
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-3 text-left"
-          >
-            <div
-              className="flex h-11 w-11 items-center justify-center rounded-xl text-lg font-black italic text-white shadow-lg"
-              style={{ background: `linear-gradient(135deg, ${G}, ${GD})` }}
-            >
-              Y
-            </div>
-            <div>
-              <div className="font-serif text-[15px] font-bold tracking-[0.08em] text-slate-900">YOUNG IN MIND</div>
-              <div className="text-[10px] font-extrabold uppercase tracking-[0.28em]" style={{ color: G }}>
-                Organization
-              </div>
+    <main className="bg-white dark:bg-[#0d1f12] text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-300">
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-white/95 dark:bg-[#0d1f12]/95 backdrop-blur-md shadow-md" : "bg-white/80 dark:bg-[#0d1f12]/80 backdrop-blur-sm"} border-b border-green-100 dark:border-green-900/30`}>
+        <div className="max-w-6xl mx-auto px-6 h-[68px] flex items-center justify-between">
+          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-green-600 dark:bg-green-500 rounded-lg flex items-center justify-center font-serif font-black text-white italic text-lg flex-shrink-0">Y</div>
+            <div className="text-left">
+              <div className="font-serif font-bold text-base text-gray-900 dark:text-[#e8f5ec] leading-none">YOUNG IN MIND</div>
+              <div className="text-[10px] font-bold text-green-600 dark:text-[#52b788] tracking-widest uppercase mt-0.5">Organization</div>
             </div>
           </button>
-
-          <div className="hidden items-center gap-1 md:flex">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollTo(link.id)}
-                className="rounded-full px-4 py-2 text-sm font-semibold text-slate-500 transition hover:text-slate-900"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = BG;
-                  e.currentTarget.style.color = GD;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#64748b";
-                }}
-              >
-                {link.label}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map(({ id, label }) => (
+              <button key={id} onClick={() => scrollTo(id)} className="text-xs font-semibold text-gray-500 dark:text-[#6b9e74] hover:text-green-600 dark:hover:text-[#52b788] hover:bg-green-50 dark:hover:bg-[#142b18] px-3 py-2 rounded-lg transition-all">
+                {label}
               </button>
             ))}
           </div>
-
-          <div className="hidden items-center gap-3 md:flex">
-            <Link
-              href="/admin/login"
-              className="rounded-full border px-4 py-2 text-sm font-bold text-slate-600 transition hover:text-slate-900"
-              style={{ borderColor: "rgba(148,163,184,0.3)" }}
-            >
-              Admin portal
-            </Link>
-            <button
-              onClick={() => scrollTo("refer")}
-              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-extrabold text-white shadow-lg transition hover:-translate-y-0.5"
-              style={{ background: `linear-gradient(135deg, ${G}, ${GD})` }}
-            >
-              Refer a child
-              <ArrowRight size={16} />
+          <div className="hidden md:flex items-center gap-3">
+            <button onClick={toggleTheme} className="w-9 h-9 rounded-lg border border-green-200 dark:border-[#1a3d22] bg-green-50 dark:bg-[#142b18] flex items-center justify-center text-green-600 dark:text-[#52b788] transition-all">
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <Link href="/admin/login" className="text-xs font-bold text-gray-500 dark:text-[#6b9e74] border border-gray-200 dark:border-[#1a3d22] hover:border-green-500 hover:text-green-600 dark:hover:text-[#52b788] px-4 py-2 rounded-lg transition-all">Admin</Link>
+            <button onClick={() => scrollTo("refer")} className="bg-green-600 dark:bg-green-700 hover:bg-green-700 text-white text-xs font-bold px-5 py-2 rounded-full transition-all">Donate</button>
+          </div>
+          <div className="md:hidden flex items-center gap-2">
+            <button onClick={toggleTheme} className="w-9 h-9 rounded-lg border border-green-200 dark:border-[#1a3d22] bg-green-50 dark:bg-[#142b18] flex items-center justify-center text-green-600 dark:text-[#52b788] transition-all">
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <button onClick={() => setMenuOpen(!menuOpen)} className="text-gray-800 dark:text-[#e8f5ec]">
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
-
-          <button className="md:hidden" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
-
         {menuOpen && (
-          <div className="border-t bg-white px-5 py-4 md:hidden" style={{ borderColor: "rgba(64,145,108,0.12)" }}>
-            <div className="flex flex-col">
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => scrollTo(link.id)}
-                  className="border-b py-3 text-left text-sm font-semibold text-slate-700"
-                  style={{ borderColor: "rgba(226,232,240,0.9)" }}
-                >
-                  {link.label}
-                </button>
-              ))}
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              <Link
-                href="/admin/login"
-                className="rounded-xl border px-4 py-3 text-center text-sm font-bold text-slate-600"
-                style={{ borderColor: "rgba(148,163,184,0.3)" }}
-              >
-                Admin
-              </Link>
-              <button
-                onClick={() => scrollTo("refer")}
-                className="rounded-xl px-4 py-3 text-sm font-extrabold text-white"
-                style={{ background: `linear-gradient(135deg, ${G}, ${GD})` }}
-              >
-                Refer
+          <div className="md:hidden bg-white dark:bg-[#0a1a0d] border-t border-green-100 dark:border-[#1a3d22] px-6 pb-6 pt-2">
+            {navLinks.map(({ id, label }) => (
+              <button key={id} onClick={() => scrollTo(id)} className="block w-full text-left py-3 text-base font-semibold text-gray-800 dark:text-[#c8e6cc] border-b border-gray-100 dark:border-[#142b18] hover:text-green-600 dark:hover:text-[#52b788] transition-colors">
+                {label}
               </button>
+            ))}
+            <div className="flex gap-3 mt-4">
+              <Link href="/admin/login" onClick={() => setMenuOpen(false)} className="flex-1 text-center py-3 border border-gray-200 dark:border-[#1a3d22] rounded-xl font-bold text-sm text-gray-600 dark:text-[#6b9e74]">Admin</Link>
+              <button onClick={() => scrollTo("refer")} className="flex-1 bg-green-600 dark:bg-green-700 text-white py-3 rounded-xl font-bold text-sm">Donate</button>
             </div>
           </div>
         )}
       </nav>
-
-      <section className="relative isolate overflow-hidden px-5 pb-16 pt-32 md:px-8 md:pb-20 md:pt-36">
-        <div
-          className="absolute inset-0 -z-20"
-          style={{
-            backgroundImage:
-              "linear-gradient(120deg, rgba(15,23,42,0.82), rgba(15,23,42,0.66)), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1800&q=80')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-white/10" />
-
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-          <div className="max-w-3xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.24em] text-white/90 backdrop-blur-md">
-              <span className="h-1.5 w-1.5 rounded-full" style={{ background: GL }} />
-              Faith · Education · Character
-            </div>
-            <h1 className="max-w-4xl font-serif text-[clamp(3rem,7vw,5.8rem)] font-black leading-[0.95] text-white">
-              Transforming lives through faith, support, and opportunity.
-            </h1>
-            <p className="mt-6 max-w-2xl text-[17px] leading-8 text-white/80 md:text-[18px]">
-              Young In Mind supports vulnerable children through education, care, and Christian values, giving them the foundation to become responsible leaders in society.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-4">
-              <button
-                onClick={() => scrollTo("refer")}
-                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-extrabold text-slate-900 shadow-2xl transition hover:-translate-y-0.5"
-              >
-                Start a confidential referral
-                <ArrowRight size={16} />
-              </button>
-              <button
-                onClick={() => scrollTo("process")}
-                className="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
-              >
-                See how it works
-              </button>
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-3 text-sm text-white/85">
-              {[
-                "200+ children helped",
-                "15 communities reached",
-                "Confidential referral process",
-              ].map((item) => (
-                <div key={item} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-md">
-                  {item}
-                </div>
-              ))}
-            </div>
+      <section className="min-h-screen pt-[68px] relative overflow-hidden flex items-center">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.45)),url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center" />
+        <div className="max-w-6xl mx-auto px-6 py-20 relative z-10 w-full">
+          <div className="inline-flex items-center gap-2 bg-green-600/80 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-300" />
+            <span className="text-xs font-bold text-white tracking-widest uppercase">Faith · Education · Character</span>
           </div>
-
-          <div className="grid gap-4 lg:justify-self-end">
-            <div className="rounded-3xl border border-white/15 bg-white/10 p-6 text-white shadow-2xl backdrop-blur-md">
-              <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/65">Our mission</div>
-              <p className="mt-3 text-lg font-medium leading-8 text-white/90">
-                Finding the overlooked, walking alongside them, and helping them grow in Christian life, learning, and personal responsibility.
-              </p>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl border border-white/15 bg-white/10 p-5 text-white shadow-xl backdrop-blur-md">
-                <div className="text-3xl font-black">2025</div>
-                <div className="mt-1 text-sm text-white/70">Founded</div>
-              </div>
-              <div className="rounded-3xl border border-white/15 bg-white/10 p-5 text-white shadow-xl backdrop-blur-md">
-                <div className="text-3xl font-black">24/7</div>
-                <div className="mt-1 text-sm text-white/70">Mentorship</div>
-              </div>
-            </div>
+          <h1 className="font-serif text-5xl md:text-7xl font-black text-white leading-tight tracking-tight mb-5">
+            Transforming Lives<br />Through <em className="text-green-300 not-italic">Faith &amp; Support</em>
+          </h1>
+          <p className="text-lg text-white/80 max-w-xl leading-relaxed mb-8">
+            Supporting vulnerable children through education, care, and Christian values.
+          </p>
+          <div className="flex gap-4 flex-wrap">
+            <button onClick={() => scrollTo("refer")} className="inline-flex items-center gap-2 bg-white text-green-700 font-black text-sm px-7 py-4 rounded-xl shadow-xl hover:-translate-y-0.5 transition-all">
+              Refer a Child <ArrowRight size={16} />
+            </button>
+            <button onClick={() => scrollTo("about")} className="inline-flex items-center gap-2 border-2 border-white/60 hover:border-white text-white font-bold text-sm px-7 py-4 rounded-xl hover:bg-white/10 transition-all">
+              Learn More
+            </button>
           </div>
         </div>
-
-        <button
-          onClick={() => scrollTo("about")}
-          className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1 text-[11px] font-bold uppercase tracking-[0.24em] text-white/60"
-        >
-          Scroll
+        <button onClick={() => scrollTo("about")} className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-white/40 hover:text-white/70 transition-colors cursor-pointer">
+          <span className="text-[10px] tracking-widest uppercase">Scroll</span>
           <ChevronDown size={16} />
         </button>
       </section>
 
-      <section className="px-5 py-6 md:px-8">
-        <div
-          className="mx-auto grid max-w-7xl gap-4 rounded-[28px] border px-6 py-5 shadow-sm md:grid-cols-4"
-          style={{ background: BG, borderColor: "rgba(64,145,108,0.12)" }}
-        >
-          {trustStats.map((stat) => (
-            <div key={stat.label} className="flex items-center gap-4 rounded-2xl bg-white px-4 py-4 shadow-sm">
-              <div
-                className="flex h-12 w-12 items-center justify-center rounded-2xl text-sm font-black"
-                style={{ background: GP, color: GD }}
-              >
-                <BadgeCheck size={20} />
-              </div>
-              <div>
-                <div className="font-serif text-2xl font-black" style={{ color: GD }}>
-                  {stat.value}
-                </div>
-                <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{stat.label}</div>
-              </div>
-            </div>
-          ))}
+      <section id="about" className="bg-white dark:bg-[#0d1f12] py-10 border-b-2 border-green-100 dark:border-[#1a3d22]">
+        <div className="max-w-6xl mx-auto px-6">
+          <p className="text-base leading-relaxed text-gray-600 dark:text-[#6b9e74]">
+            <strong className="text-gray-900 dark:text-[#e8f5ec]">Who We Are: </strong>
+            YMO is a Christian organization dedicated to improving the lives of children through education, support, and faith-driven initiatives. We identify children who have been overlooked by traditional support systems and walk alongside them on their journey to becoming committed Christians and responsible citizens.
+          </p>
         </div>
       </section>
-
-      <section id="about" className="px-5 py-16 md:px-8 md:py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-3xl">
-            {sectionTag("Who we are")}
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.4rem)] font-bold leading-tight text-slate-900">
-              We are committed to reaching children who have been overlooked.
-            </h2>
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              YMO is a Christian organization dedicated to improving the lives of children through education, support, and faith-driven initiatives. We identify children who have been overlooked by traditional support systems and walk alongside them on their journey to becoming committed Christians and responsible citizens.
-            </p>
+      <section id="pillars" className="bg-green-50 dark:bg-[#0a1a0d] py-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="text-xs font-bold text-green-600 dark:text-[#52b788] tracking-widest uppercase mb-3">Our Foundation</div>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 dark:text-[#e8f5ec] mb-3">Our Three-Fold Commitment</h2>
+            <div className="w-12 h-0.5 bg-green-600 dark:bg-[#52b788] mx-auto mb-4" />
+            <p className="text-gray-500 dark:text-[#6b9e74] max-w-md mx-auto leading-relaxed">Focusing on the areas critical to a child's success in this life and the next.</p>
           </div>
-
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {introCards.map((card) => {
-              const Icon = card.icon;
-              return (
-                <div
-                  key={card.title}
-                  className="rounded-[28px] border bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-                  style={{ borderColor: "rgba(64,145,108,0.12)" }}
-                >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: GP, color: G }}>
-                    <Icon size={24} />
-                  </div>
-                  <h3 className="mt-5 font-serif text-2xl font-bold text-slate-900">{card.title}</h3>
-                  <p className="mt-3 text-[15px] leading-7 text-slate-600">{card.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section id="pillars" className="px-5 py-16 md:px-8 md:py-20" style={{ background: BG }}>
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-3xl text-center">
-            {sectionTag("Our foundation")}
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">Our three-fold commitment</h2>
-            <p className="mt-4 text-lg leading-8 text-slate-600">
-              We focus on the areas that are critical to a child’s success in this life and the next.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {pillars.map((pillar, index) => {
-              const Icon = pillar.icon;
-              const featured = Boolean(pillar.featured);
-              return (
-                <div
-                  key={pillar.title}
-                  className="relative overflow-hidden rounded-[30px] p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-2xl"
-                  style={{
-                    background: featured ? `linear-gradient(160deg, ${GD}, ${G})` : "white",
-                    color: featured ? "white" : "#0f172a",
-                    border: featured ? "none" : "1px solid rgba(64,145,108,0.12)",
-                  }}
-                >
-                  <div className="absolute right-6 top-6 font-serif text-6xl font-black opacity-10">0{index + 1}</div>
-                  <div
-                    className="flex h-14 w-14 items-center justify-center rounded-2xl"
-                    style={{
-                      background: featured ? "rgba(255,255,255,0.14)" : GP,
-                      color: featured ? "white" : G,
-                    }}
-                  >
-                    <Icon size={24} />
-                  </div>
-                  <h3 className="mt-6 font-serif text-3xl font-bold">{pillar.title}</h3>
-                  <div className="mt-4 h-1 w-14 rounded-full" style={{ background: featured ? GL : G }} />
-                  <p className="mt-5 text-[15px] leading-7" style={{ color: featured ? "rgba(255,255,255,0.82)" : "#475569" }}>
-                    {pillar.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section id="impact" className="px-5 py-16 md:px-8 md:py-20">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            {sectionTag("Our impact")}
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">Numbers that matter</h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
-              We believe every child deserves to be seen, supported, and guided with intention. These figures reflect the reach and consistency YMO is building through its mission.
-            </p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {trustStats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="rounded-[24px] border p-6"
-                  style={{ background: "white", borderColor: "rgba(64,145,108,0.12)" }}
-                >
-                  <div className="font-serif text-5xl font-black leading-none" style={{ color: G }}>
-                    {stat.value}
-                  </div>
-                  <div className="mt-3 text-sm font-bold uppercase tracking-[0.16em] text-slate-500">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-[32px] border p-8 shadow-sm" style={{ background: BG, borderColor: "rgba(64,145,108,0.12)" }}>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500 shadow-sm">
-              <ShieldCheck size={16} style={{ color: G }} />
-              Why this matters
-            </div>
-            <h3 className="mt-6 font-serif text-3xl font-bold text-slate-900">Support should touch the whole child.</h3>
-            <p className="mt-4 text-[15px] leading-7 text-slate-600">
-              YMO’s work is built around more than one kind of need. Children are supported spiritually, academically, and personally so that progress is both meaningful and lasting.
-            </p>
-            <div className="mt-8 rounded-[24px] bg-white p-6 shadow-sm">
-              <div className="text-xs font-extrabold uppercase tracking-[0.18em]" style={{ color: G }}>A living commitment</div>
-              <p className="mt-3 text-[15px] leading-7 text-slate-600">
-                From prayer and discipleship to tutoring, mentorship, and character formation, our goal is to help children grow with faith, stability, and direction.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="process" className="px-5 py-16 md:px-8 md:py-20" style={{ background: BG }}>
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-3xl text-center">
-            {sectionTag("How it works")}
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">Our intervention process</h2>
-            <p className="mt-4 text-lg leading-8 text-slate-600">
-              Every referral is handled carefully so that children receive the right kind of support at the right time.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-5 lg:grid-cols-4">
-            {processSteps.map((step) => {
-              const Icon = step.icon;
-              return (
-                <div
-                  key={step.step}
-                  className="rounded-[28px] border bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-                  style={{ borderColor: "rgba(64,145,108,0.12)" }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: GP, color: G }}>
-                      <Icon size={22} />
-                    </div>
-                    <div className="font-serif text-4xl font-black text-slate-200">{step.step}</div>
-                  </div>
-                  <h3 className="mt-6 font-serif text-2xl font-bold text-slate-900">{step.title}</h3>
-                  <p className="mt-3 text-[15px] leading-7 text-slate-600">{step.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-
-          <div
-            className="mt-8 grid gap-4 rounded-[28px] border p-6 md:grid-cols-3 md:p-8"
-            style={{ background: "white", borderColor: "rgba(64,145,108,0.12)" }}
-          >
+          <div className="grid md:grid-cols-3 gap-6">
             {[
-              "All referrals are handled confidentially and reviewed with care.",
-              "Assessment considers spiritual, academic, and personal needs together.",
-              "The process is designed to help communities act early and wisely.",
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3 rounded-2xl bg-slate-50 px-4 py-4 text-sm font-medium leading-6 text-slate-700">
-                <BadgeCheck size={18} className="mt-0.5 shrink-0" style={{ color: G }} />
-                {item}
+              { icon: Shield, title: "Christian Life", desc: "Nurturing a deep, committed relationship with God through scriptural literacy, prayer, and discipleship.", num: "01", featured: false },
+              { icon: BookOpen, title: "Education", desc: "Bridging academic gaps by providing resources, tutoring, and structured support for children in underserved communities.", num: "02", featured: true },
+              { icon: Heart, title: "Personal Life", desc: "Character building and life skills training to develop responsible, ethical, and high-functioning citizens.", num: "03", featured: false },
+            ].map(p => (
+              <div key={p.title} className={`relative rounded-2xl p-8 overflow-hidden transition-all hover:-translate-y-1 ${p.featured ? "bg-green-700 dark:bg-[#1a3d22] shadow-2xl" : "bg-white dark:bg-[#142b18] border border-green-100 dark:border-[#1a3d22] hover:shadow-xl"}`}>
+                <div className={`absolute bottom-3 right-5 font-serif text-6xl font-black leading-none pointer-events-none ${p.featured ? "text-white/5" : "text-green-600/5"}`}>{p.num}</div>
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ${p.featured ? "bg-white/15" : "bg-green-100 dark:bg-[#0d1f12]"}`}>
+                  <p.icon size={26} className={p.featured ? "text-white" : "text-green-600 dark:text-[#52b788]"} />
+                </div>
+                <h3 className={`font-serif text-2xl font-bold mb-3 ${p.featured ? "text-white" : "text-gray-900 dark:text-[#e8f5ec]"}`}>{p.title}</h3>
+                <div className={`w-8 h-0.5 mb-4 ${p.featured ? "bg-green-300" : "bg-green-600 dark:bg-[#52b788]"}`} />
+                <p className={`text-sm leading-relaxed ${p.featured ? "text-white/70" : "text-gray-500 dark:text-[#6b9e74]"}`}>{p.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="governance" className="px-5 py-16 md:px-8 md:py-20">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div
-            className="relative overflow-hidden rounded-[36px] border p-8 text-white shadow-xl"
-            style={{ background: `linear-gradient(145deg, ${GD}, ${G})`, borderColor: "rgba(64,145,108,0.12)" }}
-          >
-            <div className="absolute -right-10 -top-8 h-40 w-40 rounded-full bg-white/10" />
-            <div className="absolute -bottom-10 -left-10 h-44 w-44 rounded-full bg-white/10" />
-            <div className="relative">
-              <div className="inline-flex h-20 w-20 items-center justify-center rounded-[24px] bg-white/15 font-serif text-4xl font-black shadow-lg">
-                EA
+      <section id="impact" className="bg-white dark:bg-[#0d1f12] py-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="text-xs font-bold text-green-600 dark:text-[#52b788] tracking-widest uppercase mb-3">Numbers That Matter</div>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 dark:text-[#e8f5ec] mb-3">Our Impact</h2>
+            <div className="w-12 h-0.5 bg-green-600 dark:bg-[#52b788] mx-auto" />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-green-100 dark:divide-[#1a3d22]">
+            {[{ value: "200+", label: "Children Helped" }, { value: "15", label: "Communities Reached" }, { value: "100+", label: "Sponsors" }, { value: "24/7", label: "Mentorship" }].map(s => (
+              <div key={s.label} className="text-center py-10 px-6">
+                <div className="font-serif text-5xl font-black text-green-600 dark:text-[#52b788] leading-none mb-2">{s.value}</div>
+                <div className="text-xs font-bold text-gray-400 dark:text-[#4a7a54] uppercase tracking-widest">{s.label}</div>
               </div>
-              <div className="mt-8 text-xs font-extrabold uppercase tracking-[0.24em] text-white/65">Leadership</div>
-              <h2 className="mt-3 font-serif text-4xl font-bold">Governance &amp; vision</h2>
-              <blockquote className="mt-6 border-l-4 border-white/35 pl-5 font-serif text-2xl leading-10 text-white/95">
-                “We don’t wait for children to find us. We go to them. At Young In Mind, we are committed to finding the overlooked and giving them a future anchored in Christ and excellence.”
-              </blockquote>
-              <div className="mt-6 text-xl font-bold">Miss Edinia Ashitey</div>
-              <div className="mt-1 text-sm uppercase tracking-[0.18em] text-white/70">Executive Director</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="process" className="bg-green-50 dark:bg-[#0a1a0d] py-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="text-xs font-bold text-green-600 dark:text-[#52b788] tracking-widest uppercase mb-3">How It Works</div>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 dark:text-[#e8f5ec]">Our Intervention Process</h2>
+            <div className="w-12 h-0.5 bg-green-600 dark:bg-[#52b788] mx-auto mt-4" />
+          </div>
+          <div className="grid md:grid-cols-4 gap-5">
+            {[
+              { step: "01", title: "Referral", desc: "Community identifies a child in need and submits a confidential referral." },
+              { step: "02", title: "Assessment", desc: "YMO team evaluates the child's spiritual, academic, and personal needs." },
+              { step: "03", title: "Integration", desc: "Child is enrolled into our 3-pillar mentorship program." },
+              { step: "04", title: "Transformation", desc: "Child emerges as a committed Christian leader and responsible citizen." },
+            ].map(s => (
+              <div key={s.step} className="bg-white dark:bg-[#142b18] rounded-2xl p-6 border border-green-100 dark:border-[#1a3d22] hover:-translate-y-1 hover:shadow-xl transition-all">
+                <div className="w-10 h-10 bg-green-100 dark:bg-[#0d1f12] rounded-xl flex items-center justify-center text-green-600 dark:text-[#52b788] font-black text-sm mb-4">{s.step}</div>
+                <h4 className="font-serif text-lg font-bold text-gray-900 dark:text-[#e8f5ec] mb-2">{s.title}</h4>
+                <p className="text-sm text-gray-500 dark:text-[#6b9e74] leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white dark:bg-[#0d1f12] py-20 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div className="w-full aspect-square bg-gradient-to-br from-green-100 to-green-300 dark:from-[#142b18] dark:to-[#1a3d22] rounded-3xl flex items-center justify-center font-serif text-8xl font-bold text-green-700 dark:text-[#52b788] relative overflow-hidden">
+            EA
+            <div className="absolute bottom-6 right-6 bg-white dark:bg-[#142b18] p-4 rounded-2xl shadow-xl text-center">
+              <div className="font-serif text-3xl font-black text-green-600 dark:text-[#52b788]">2025</div>
+              <div className="text-xs font-bold text-gray-400 dark:text-[#4a7a54] uppercase tracking-widest">Founded</div>
             </div>
           </div>
-
           <div>
-            {sectionTag("Leadership")}
-            <h3 className="font-serif text-[clamp(2rem,4vw,3rem)] font-bold text-slate-900">A mission led with conviction and care.</h3>
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Young In Mind is led by Miss Edinia Ashitey, Executive Director. The organization is built on a vision to identify overlooked children and give them a future grounded in Christ, excellence, and responsible citizenship.
-            </p>
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {[
-                "Faith-driven leadership rooted in service and responsibility.",
-                "A focus on going to children who may otherwise be missed.",
-                "A commitment to support children spiritually, academically, and personally.",
-                "Governance information can expand here as the organization continues to grow.",
-              ].map((item) => (
-                <div key={item} className="rounded-[24px] border bg-white p-5 text-[15px] leading-7 text-slate-600" style={{ borderColor: "rgba(64,145,108,0.12)" }}>
-                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl" style={{ background: GP, color: G }}>
-                    <ShieldCheck size={18} />
-                  </div>
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-5 py-16 md:px-8 md:py-20" style={{ background: BG }}>
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-3xl">
-            {sectionTag("Get involved")}
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.1rem)] font-bold text-slate-900">Find the next right step.</h2>
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Whether you are identifying a child in need, learning about our approach, or exploring the mission — you are in the right place.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {actionCards.map((card) => (
-              <button
-                key={card.title}
-                onClick={() => scrollTo(card.target)}
-                className="group rounded-[28px] border bg-white p-6 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-                style={{ borderColor: "rgba(64,145,108,0.12)" }}
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: GP, color: G }}>
-                  <ChevronRight size={20} />
-                </div>
-                <h3 className="mt-5 font-serif text-2xl font-bold text-slate-900">{card.title}</h3>
-                <p className="mt-3 text-[15px] leading-7 text-slate-600">{card.desc}</p>
-                <div className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold" style={{ color: G }}>
-                  Go to section
-                  <ArrowRight size={15} className="transition group-hover:translate-x-1" />
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-5 py-16 md:px-8 md:py-20">
-        <div
-          className="mx-auto max-w-7xl overflow-hidden rounded-[36px] px-7 py-10 text-white shadow-2xl md:px-10 md:py-14"
-          style={{ background: `linear-gradient(135deg, ${GD}, ${G})` }}
-        >
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-            <div>
-              <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/65">Confidential referral</div>
-              <h2 className="mt-3 font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold leading-tight">Be the reason a child is seen.</h2>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-white/80">
-                Your action can help a child receive assessment, guidance, and support. If you know a child who may need help, submit a referral and our team will review it carefully.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <button
-                  onClick={() => scrollTo("refer")}
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-extrabold text-slate-900 transition hover:-translate-y-0.5"
-                >
-                  Start a referral
-                  <ArrowRight size={16} />
-                </button>
-                <button
-                  onClick={() => scrollTo("process")}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
-                >
-                  Review the process
-                </button>
+            <div className="text-xs font-bold text-green-600 dark:text-[#52b788] tracking-widest uppercase mb-3">Leadership</div>
+            <h2 className="font-serif text-4xl font-bold text-gray-900 dark:text-[#e8f5ec] mb-6">Governance &amp; Vision</h2>
+            <blockquote className="font-serif text-xl italic text-gray-800 dark:text-[#c8e6cc] leading-relaxed mb-6 border-l-4 border-green-600 dark:border-[#52b788] pl-6">
+              "We don't wait for children to find us. We go to them. At Young In Mind, we are committed to finding the overlooked and giving them a future anchored in Christ and Excellence."
+            </blockquote>
+            <div className="text-lg font-bold text-green-700 dark:text-[#52b788]">Miss Edinia Ashitey</div>
+            <div className="text-xs font-bold text-gray-400 dark:text-[#4a7a54] uppercase tracking-widest mt-1">Executive Director</div>
+            <div className="bg-green-50 dark:bg-[#142b18] rounded-2xl p-5 border border-green-100 dark:border-[#1a3d22] mt-6">
+              <h4 className="text-xs font-bold text-gray-400 dark:text-[#4a7a54] uppercase tracking-widest mb-4">Board of Directors</h4>
+              <div className="flex items-center gap-3 py-3 border-b border-green-100 dark:border-[#1a3d22]">
+                <div className="w-2 h-2 rounded-full bg-green-600 dark:bg-[#52b788] flex-shrink-0" />
+                <span className="font-semibold text-gray-800 dark:text-[#c8e6cc] text-sm">Miss Edinia Ashitey — Executive Director</span>
               </div>
-            </div>
-
-            <div className="grid gap-4">
-              {[
-                "Who can submit: community members, guardians, educators, and trusted leaders.",
-                "What happens next: referral review, assessment, and integration into the support journey where appropriate.",
-                "How it is handled: all data is confidential and treated with care.",
-              ].map((item) => (
-                <div key={item} className="rounded-[24px] border border-white/15 bg-white/10 px-5 py-5 text-[15px] leading-7 text-white/88 backdrop-blur-md">
-                  {item}
-                </div>
-              ))}
+              <p className="text-gray-400 dark:text-[#4a7a54] text-sm italic pt-3">Additional Board Members to be announced...</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="refer">
+      <section className="bg-green-700 dark:bg-[#071a0f] py-16 px-6 text-center relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-white/5 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+        <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-4 relative z-10">Be the reason a child smiles today</h2>
+        <p className="text-white/70 max-w-md mx-auto mb-8 leading-relaxed relative z-10">Your support helps us reach more children with the guidance they deserve.</p>
+        <button onClick={() => scrollTo("refer")} className="inline-flex items-center gap-2 bg-white text-green-700 font-black text-base px-8 py-4 rounded-full shadow-2xl hover:-translate-y-0.5 transition-all relative z-10">
+          Donate Now ❤️
+        </button>
+      </section>
+
+      <section id="refer" className="bg-white dark:bg-[#0d1f12]">
         <ReferralForm />
       </section>
 
-      <footer className="px-5 py-14 md:px-8" style={{ background: "#0f1f17" }}>
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[1fr_0.7fr_0.7fr]">
-            <div>
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl text-lg font-black italic text-white" style={{ background: `linear-gradient(135deg, ${G}, ${GD})` }}>
-                  Y
-                </div>
-                <div>
-                  <div className="font-serif text-lg font-bold text-white">Young In Mind Organization</div>
-                  <div className="text-[10px] font-extrabold uppercase tracking-[0.28em] text-white/40">Faith · Education · Character</div>
-                </div>
-              </div>
-              <p className="mt-5 max-w-md text-[15px] leading-7 text-white/55">
-                Dedicated to finding the overlooked and raising them as committed Christians and responsible citizens.
-              </p>
-            </div>
-
-            <div>
-              <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/40">Explore</div>
-              <div className="mt-4 flex flex-col gap-3">
-                {navLinks.map((link) => (
-                  <button key={link.id} onClick={() => scrollTo(link.id)} className="text-left text-sm font-semibold text-white/70 transition hover:text-white">
-                    {link.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="text-xs font-extrabold uppercase tracking-[0.24em] text-white/40">Quick actions</div>
-              <div className="mt-4 flex flex-col gap-3">
-                <button onClick={() => scrollTo("refer")} className="text-left text-sm font-semibold text-white/70 transition hover:text-white">
-                  Start a confidential referral
-                </button>
-                <button onClick={() => scrollTo("process")} className="text-left text-sm font-semibold text-white/70 transition hover:text-white">
-                  See how it works
-                </button>
-                <ThemeToggle />
-            <Link href="/admin/login" className="text-sm font-semibold text-white/70 transition hover:text-white">
-                  Admin portal
-                </Link>
-              </div>
-            </div>
+      <footer className="bg-gray-950 dark:bg-[#071a0f] py-14 px-6 border-t border-green-900/20">
+        <div className="max-w-6xl mx-auto flex flex-col items-center gap-6 text-center">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-green-600 rounded-lg flex items-center justify-center font-serif font-black text-white italic">Y</div>
+            <span className="font-serif font-bold text-white text-base">YOUNG IN MIND ORGANIZATION</span>
           </div>
-
-          <div className="mt-10 h-px w-full bg-white/10" />
-          <div className="mt-6 flex flex-col gap-3 text-sm text-white/35 md:flex-row md:items-center md:justify-between">
-            <p>© 2025 YMO Organization. All rights reserved.</p>
-            <p>Supporting vulnerable children through faith, education, and personal development.</p>
+          <p className="text-gray-500 text-sm max-w-md leading-relaxed">Dedicated to finding the overlooked and raising them as committed Christians and responsible citizens.</p>
+          <div className="flex gap-8 flex-wrap justify-center">
+            {["Privacy Policy", "Governance", "Contact"].map(item => (
+              <a key={item} href="#" className="text-gray-600 hover:text-green-400 text-xs font-bold uppercase tracking-widest transition-colors">{item}</a>
+            ))}
+            <Link href="/admin/login" className="text-green-500 hover:text-green-400 text-xs font-bold uppercase tracking-widest transition-colors">Admin Portal</Link>
           </div>
+          <div className="w-full h-px bg-white/5" />
+          <p className="text-gray-700 text-xs tracking-widest">© 2025 YMO Organization. All Rights Reserved.</p>
         </div>
       </footer>
     </main>
