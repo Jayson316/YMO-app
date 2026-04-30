@@ -1,22 +1,38 @@
-
 import type { Metadata } from "next";
+import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/lib/ThemeContext";
+import { ThemeProvider } from "@/components/ThemeProvider";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Young In Mind Organization | YMO",
-  description: "Transforming overlooked children into leaders for Christ.",
+  description:
+    "Transforming lives through faith, support, and opportunity. YMO supports vulnerable children through education, care, and Christian values.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-      </head>
-      <body><ThemeProvider>{children}</ThemeProvider></body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${playfair.variable} ${jakarta.variable} antialiased`}>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
