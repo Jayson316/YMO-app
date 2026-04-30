@@ -23,8 +23,6 @@ import {
   HeartHandshake,
 } from "lucide-react";
 import ReferralForm from "@/components/public/ReferralForm";
-import { useTheme } from "@/components/ThemeProvider";
-import ThemeToggle from "@/components/ThemeToggle";
 
 const G = "#40916C";
 const GD = "#2D6A4F";
@@ -94,13 +92,13 @@ const processSteps = [
   {
     step: "02",
     title: "Assessment",
-    desc: "The YMO team evaluates the child’s spiritual, academic, and personal needs with care and attention.",
+    desc: "The YMO team evaluates the child's spiritual, academic, and personal needs with care and attention.",
     icon: UserCheck,
   },
   {
     step: "03",
     title: "Integration",
-    desc: "The child is enrolled into YMO’s three-pillar mentorship and support structure.",
+    desc: "The child is enrolled into YMO's three-pillar mentorship and support structure.",
     icon: Waypoints,
   },
   {
@@ -129,15 +127,14 @@ const actionCards = [
   },
   {
     title: "Read Our Vision",
-    desc: "Meet the founder and understand the heart behind Young In Mind’s mission and governance.",
+    desc: "Meet the founder and understand the heart behind Young In Mind's mission and governance.",
     target: "governance",
   },
 ];
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { theme } = useTheme();
-  const dark = theme === "dark";
+  const dark = false;
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -215,7 +212,6 @@ export default function Home() {
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
-            <ThemeToggle />
             <Link
               href="/admin/login"
               className="rounded-full border px-4 py-2 text-sm font-bold text-slate-600 dark:text-[#6b9e74] dark:border-[#1a3d22] transition hover:text-slate-900 dark:hover:text-[#52b788]"
@@ -286,7 +282,7 @@ export default function Home() {
 
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
           <div className="max-w-3xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.24em] text-white/90 backdrop-blur-md">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.24em] text-white/90">
               <span className="h-1.5 w-1.5 rounded-full" style={{ background: GL }} />
               Faith · Education · Character
             </div>
@@ -387,7 +383,7 @@ export default function Home() {
               We are committed to reaching children who have been overlooked.
             </h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              YMO is a Christian organization dedicated to improving the lives of children through education, support, and faith-driven initiatives. We identify children who have been overlooked by traditional support systems and walk alongside them on their journey to becoming committed Christians and responsible citizens.
+              YMO is a Christian organization dedicated to improving the lives of children through education, support, and faith-driven initiatives. We identify children who have been overlooked by the system and provide them with intentional care and support.
             </p>
           </div>
 
@@ -418,7 +414,7 @@ export default function Home() {
             {sectionTag("Our foundation")}
             <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-bold text-slate-900">Our three-fold commitment</h2>
             <p className="mt-4 text-lg leading-8 text-slate-600">
-              We focus on the areas that are critical to a child’s success in this life and the next.
+              We focus on the areas that are critical to a child's success in this life and the next.
             </p>
           </div>
 
@@ -489,7 +485,7 @@ export default function Home() {
             </div>
             <h3 className="mt-6 font-serif text-3xl font-bold text-slate-900">Support should touch the whole child.</h3>
             <p className="mt-4 text-[15px] leading-7 text-slate-600">
-              YMO’s work is built around more than one kind of need. Children are supported spiritually, academically, and personally so that progress is both meaningful and lasting.
+              YMO's work is built around more than one kind of need. Children are supported spiritually, academically, and personally so that progress is both meaningful and lasting.
             </p>
             <div className="mt-8 rounded-[24px] bg-white p-6 shadow-sm">
               <div className="text-xs font-extrabold uppercase tracking-[0.18em]" style={{ color: G }}>A living commitment</div>
@@ -566,7 +562,7 @@ export default function Home() {
               <div className="mt-8 text-xs font-extrabold uppercase tracking-[0.24em] text-white/65">Leadership</div>
               <h2 className="mt-3 font-serif text-4xl font-bold">Governance &amp; vision</h2>
               <blockquote className="mt-6 border-l-4 border-white/35 pl-5 font-serif text-2xl leading-10 text-white/95">
-                “We don’t wait for children to find us. We go to them. At Young In Mind, we are committed to finding the overlooked and giving them a future anchored in Christ and excellence.”
+                "We don't wait for children to find us. We go to them. At Young In Mind, we are committed to finding the overlooked and giving them a future anchored in Christ and excellence."
               </blockquote>
               <div className="mt-6 text-xl font-bold">Miss Edinia Ashitey</div>
               <div className="mt-1 text-sm uppercase tracking-[0.18em] text-white/70">Founder &amp; Executive Director</div>
@@ -577,7 +573,7 @@ export default function Home() {
             {sectionTag("Leadership")}
             <h3 className="font-serif text-[clamp(2rem,4vw,3rem)] font-bold text-slate-900">A mission led with conviction and care.</h3>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              Young In Mind is led by Miss Edinia Ashitey, Founder and Executive Director. The organization is built on a vision to identify overlooked children and give them a future grounded in Christ, excellence, and responsible citizenship.
+              Young In Mind is led by Miss Edinia Ashitey, Founder and Executive Director. The organization is built on a vision to identify overlooked children and give them a future grounded in Christian values and excellence.
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
