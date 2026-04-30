@@ -23,6 +23,8 @@ import {
   HeartHandshake,
 } from "lucide-react";
 import ReferralForm from "@/components/public/ReferralForm";
+import { useTheme } from "@/components/ThemeProvider";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const G = "#40916C";
 const GD = "#2D6A4F";
@@ -134,6 +136,8 @@ const actionCards = [
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { theme } = useTheme();
+  const dark = theme === "dark";
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -162,11 +166,11 @@ export default function Home() {
   );
 
   return (
-    <main className="bg-white text-slate-900">
+    <main className="bg-white dark:bg-[#0d1f12] text-slate-900 dark:text-[#e8f5ec] transition-colors duration-300">
       <nav
         className="fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl"
         style={{
-          background: "rgba(255,255,255,0.94)",
+          background: dark ? "rgba(13,31,18,0.96)" : "rgba(255,255,255,0.94)",
           borderColor: "rgba(64,145,108,0.14)",
           boxShadow: scrolled ? "0 10px 30px rgba(15,23,42,0.08)" : "none",
         }}
@@ -211,10 +215,11 @@ export default function Home() {
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
+            <ThemeToggle />
             <Link
               href="/admin/login"
-              className="rounded-full border px-4 py-2 text-sm font-bold text-slate-600 transition hover:text-slate-900"
-              style={{ borderColor: "rgba(148,163,184,0.3)" }}
+              className="rounded-full border px-4 py-2 text-sm font-bold text-slate-600 dark:text-[#6b9e74] dark:border-[#1a3d22] transition hover:text-slate-900 dark:hover:text-[#52b788]"
+              style={{}}
             >
               Admin portal
             </Link>
