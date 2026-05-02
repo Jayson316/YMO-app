@@ -23,8 +23,6 @@ import {
   HeartHandshake,
 } from "lucide-react";
 import ReferralForm from "@/components/public/ReferralForm";
-import { useTheme } from "@/lib/ThemeContext";
-import { Moon, Sun } from "lucide-react";
 
 const G = "#40916C";
 const GD = "#2D6A4F";
@@ -136,8 +134,7 @@ const actionCards = [
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isDark, toggleTheme } = useTheme();
-  const dark = isDark;
+  const dark = false;
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -215,9 +212,6 @@ export default function Home() {
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
-              <button onClick={toggleTheme} className="w-9 h-9 rounded-lg border border-green-200 dark:border-[#1a3d22] flex items-center justify-center text-green-600 dark:text-[#52b788] transition-all">
-                {dark ? <Sun size={16} /> : <Moon size={16} />}
-              </button>
             <Link
               href="/admin/login"
               className="rounded-full border px-4 py-2 text-sm font-bold text-slate-600 dark:text-[#6b9e74] dark:border-[#1a3d22] transition hover:text-slate-900 dark:hover:text-[#52b788]"
