@@ -331,7 +331,7 @@ export default function Home() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-3xl border border-white/15 bg-white/10 p-5 text-white shadow-xl backdrop-blur-md">
-                <div className="text-3xl font-black">2024</div>
+                <div className="text-3xl font-black">2025</div>
                 <div className="mt-1 text-sm text-white/70">Founded</div>
               </div>
               <div className="rounded-3xl border border-white/15 bg-white/10 p-5 text-white shadow-xl backdrop-blur-md">
@@ -723,7 +723,7 @@ export default function Home() {
 
           <div className="mt-10 h-px w-full bg-white/10" />
           <div className="mt-6 flex flex-col gap-3 text-sm text-white/35 md:flex-row md:items-center md:justify-between">
-            <p>© 2024 YMO Organization. All rights reserved.</p>
+            <p>© 2025 YMO Organization. All rights reserved.</p>
             <p>Supporting vulnerable children through faith, education, and personal development.</p>
           </div>
         </div>
