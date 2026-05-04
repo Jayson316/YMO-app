@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { getReferrals, getChildren, getReports } from "@/lib/db";
 import type { Referral, Child, Report } from "@/types";
-import { FileText, Users, BarChart3, Clock, TrendingUp, ArrowRight, AlertCircle, UserPlus, Shield, BookOpen, Heart, Activity } from "lucide-react";
+import { FileText, Users, BarChart3, Clock, TrendingUp, ArrowRight, AlertCircle, UserPlus, Shield, BookOpen, Heart, CalendarCheck } from "lucide-react";
 
 const G = "#40916C", GD = "#2D6A4F", GP = "#D8F3DC", BG = "#F0FAF4";
 
@@ -60,6 +60,9 @@ export default function DashboardPage() {
               <p style={{ color: "rgba(255,255,255,0.7)", marginTop: "0.4rem", fontSize: "0.95rem" }}>Here is what is happening at YMO today.</p>
             </div>
             <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+              <Link href="/admin/attendance" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#fff", color: GD, padding: "0.65rem 1.25rem", borderRadius: 100, fontWeight: 800, fontSize: "0.8rem", textDecoration: "none", boxShadow: "0 6px 18px rgba(0,0,0,0.15)" }}>
+                <CalendarCheck size={15} /> Take Attendance
+              </Link>
               <Link href="/admin/referrals" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)", color: "#fff", padding: "0.65rem 1.25rem", borderRadius: 100, fontWeight: 700, fontSize: "0.8rem", textDecoration: "none" }}>
                 <UserPlus size={15} /> New Referral
               </Link>
@@ -79,9 +82,7 @@ export default function DashboardPage() {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
         {stats.map(s => (
-          <div key={s.label} style={{ background: "#fff", borderRadius: 20, padding: "1.5rem", border: "1px solid #f1f5f9", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", transition: "all .25s" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 30px rgba(0,0,0,0.1)"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(0,0,0,0.04)"; }}>
+          <div key={s.label} style={{ background: "#fff", borderRadius: 20, padding: "1.5rem", border: "1px solid #f1f5f9", boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: s.bg, display: "flex", alignItems: "center", justifyContent: "center", color: s.color }}><s.icon size={20} /></div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.72rem", fontWeight: 700, color: "#94a3b8" }}><TrendingUp size={12} /> {s.trend}</div>
@@ -178,14 +179,12 @@ export default function DashboardPage() {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: "1rem" }}>
         {[
-          { label: "Review Referrals", desc: pending + " pending", href: "/admin/referrals", icon: FileText, color: G, bg: GP },
+          { label: "Daily Register", desc: "Mark attendance", href: "/admin/attendance", icon: CalendarCheck, color: G, bg: GP },
+          { label: "Review Referrals", desc: pending + " pending", href: "/admin/referrals", icon: FileText, color: "#f59e0b", bg: "#fef3c7" },
           { label: "View Children", desc: active + " active", href: "/admin/children", icon: Users, color: "#3b82f6", bg: "#dbeafe" },
           { label: "Write Reports", desc: reports.length + " written", href: "/admin/reports", icon: BarChart3, color: "#8b5cf6", bg: "#ede9fe" },
-          { label: "All Activity", desc: "Track everything", href: "/admin/referrals", icon: Activity, color: "#ec4899", bg: "#fce7f3" },
         ].map(a => (
-          <Link key={a.label} href={a.href} style={{ background: "#fff", borderRadius: 18, padding: "1.25rem", border: "1px solid #f1f5f9", textDecoration: "none", display: "flex", alignItems: "center", gap: "0.875rem", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", transition: "all .25s" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 25px rgba(0,0,0,0.09)"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(0,0,0,0.04)"; }}>
+          <Link key={a.label} href={a.href} style={{ background: "#fff", borderRadius: 18, padding: "1.25rem", border: "1px solid #f1f5f9", textDecoration: "none", display: "flex", alignItems: "center", gap: "0.875rem", boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
             <div style={{ width: 44, height: 44, borderRadius: 12, background: a.bg, display: "flex", alignItems: "center", justifyContent: "center", color: a.color, flexShrink: 0 }}><a.icon size={20} /></div>
             <div>
               <div style={{ fontWeight: 700, color: "#0f172a", fontSize: "0.875rem" }}>{a.label}</div>
