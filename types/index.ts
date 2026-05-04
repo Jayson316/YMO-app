@@ -20,3 +20,27 @@ export interface Report {
   title: string; christianLifeNote: string; educationNote: string;
   personalLifeNote: string; overallRating: 1 | 2 | 3 | 4 | 5; writtenBy: string;
 }
+
+export type AttendanceStatus = "present" | "absent" | "late" | "excused";
+export interface AttendanceRecord {
+  id: string;
+  childId: string;
+  childName: string;
+  date: string;
+  status: AttendanceStatus;
+  session?: string;
+  notes?: string;
+  recordedBy?: string;
+  recordedAt: string;
+}
+
+export interface AttendanceSession {
+  id: string;
+  date: string;
+  session: string;
+  totalChildren: number;
+  presentCount: number;
+  absentCount: number;
+  recordedBy?: string;
+  createdAt: string;
+}
