@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeProvider } from "@/lib/ThemeContext";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -17,15 +17,10 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Young In Mind Organization | YMO",
-  description:
-    "Transforming lives through faith, support, and opportunity. YMO supports vulnerable children through education, care, and Christian values.",
+  description: "Transforming lives through faith, support, and opportunity.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${playfair.variable} ${jakarta.variable} antialiased`}>
