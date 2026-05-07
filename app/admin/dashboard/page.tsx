@@ -49,8 +49,8 @@ export default function DashboardPage() {
   );
 
   return (
-    <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-      <div style={{ background: "linear-gradient(135deg, #2D6A4F 0%, #40916C 60%, #52b788 100%)", borderRadius: 24, padding: "2rem 2.5rem", marginBottom: "2rem", position: "relative", overflow: "hidden", boxShadow: "0 20px 60px rgba(45,106,79,0.3)" }}>
+    <div style={{ maxWidth: 1200, margin: "0 auto", overflow: "hidden" }}>
+      <div style={{ background: "linear-gradient(135deg, #2D6A4F 0%, #40916C 60%, #52b788 100%)", borderRadius: 0, padding: "2rem 2.5rem", marginBottom: "2rem", position: "relative", overflow: "hidden", boxShadow: "0 20px 60px rgba(45,106,79,0.3)" }}>
         <div style={{ position: "absolute", top: -40, right: -40, width: 200, height: 200, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
