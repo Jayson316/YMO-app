@@ -115,7 +115,7 @@ export default function AttendancePage() {
   return (
     <AdminGuard>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ background: "linear-gradient(135deg, #2D6A4F 0%, #40916C 60%, #52b788 100%)", borderRadius: 24, padding: "1.75rem 2.25rem", marginBottom: "1.5rem", position: "relative", overflow: "hidden", boxShadow: "0 20px 60px rgba(45,106,79,0.25)" }}>
+        <div style={{ background: "linear-gradient(135deg, #2D6A4F 0%, #40916C 60%, #52b788 100%)", borderRadius: 0, padding: "1.75rem 2.25rem", marginBottom: "1.5rem", position: "relative", overflow: "hidden", boxShadow: "0 20px 60px rgba(45,106,79,0.25)" }}>
           <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", alignItems: "flex-start" }}>
             <div>
               <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "rgba(255,255,255,0.65)", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: "0.4rem" }}>Daily Register</p>
