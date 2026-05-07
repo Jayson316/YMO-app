@@ -31,7 +31,7 @@ export default function ReportsPage() {
     <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
       {/* Header */}
-      <div style={{ background: "linear-gradient(135deg, #4c1d95, #7c3aed, #8b5cf6)", borderRadius: 24, padding: "2rem 2.5rem", marginBottom: "1.5rem", position: "relative", overflow: "hidden", boxShadow: "0 20px 60px rgba(124,58,237,0.3)" }}>
+      <div style={{ background: "linear-gradient(135deg, #4c1d95, #7c3aed, #8b5cf6)", borderRadius: 0, padding: "2rem 2.5rem", marginBottom: "1.5rem", position: "relative", overflow: "hidden", boxShadow: "0 20px 60px rgba(124,58,237,0.3)" }}>
         <div style={{ position: "absolute", top: -30, right: -30, width: 160, height: 160, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: -40, left: 40, width: 120, height: 120, borderRadius: "50%", background: "rgba(255,255,255,0.04)", pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1 }}>

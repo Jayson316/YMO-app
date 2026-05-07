@@ -51,7 +51,7 @@ export default function ChildrenPage() {
     <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
       {/* Header */}
-      <div style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #3b82f6)", borderRadius: 24, padding: "2rem 2.5rem", marginBottom: "1.5rem", position: "relative", overflow: "hidden", boxShadow: "0 20px 60px rgba(29,78,216,0.3)" }}>
+      <div style={{ background: "linear-gradient(135deg, #1e3a5f, #1d4ed8, #3b82f6)", borderRadius: 0, padding: "2rem 2.5rem", marginBottom: "1.5rem", position: "relative", overflow: "hidden", boxShadow: "0 20px 60px rgba(29,78,216,0.3)" }}>
         <div style={{ position: "absolute", top: -30, right: -30, width: 160, height: 160, borderRadius: "50%", background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
